@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'usertype' => 'admin',
+            'type' => 'admin',
             'phone' => '12345678',
             'address' => 'Admin Address',
             'email_verified_at' => now(),
