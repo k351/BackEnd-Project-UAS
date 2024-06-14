@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->foreignId('customer_id')->constrained('users');
-            $table->integer('rating');
             $table->foreignId('transaction_id')->constrained('buy_history');
+            $table->integer('rating');
             $table->text('review')->nullable();
         });
     }

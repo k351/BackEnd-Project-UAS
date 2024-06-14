@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('price');
-            $table->text('description');
-            $table->date('date_added');
+            $table->text('description')->nullable();
             $table->foreignId('shop_id')->constrained('shops');
             $table->integer('stock');
+            $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
         });
     }

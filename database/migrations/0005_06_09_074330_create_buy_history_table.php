@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('buy_history', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('transaction_id');
             $table->foreignId('customer_id')->constrained('users');
             $table->foreignId('product_id')->constrained('products');
-            $table->integer('total');
+            $table->bigInteger('total');
             $table->date('transaction_date');
         });
     }
