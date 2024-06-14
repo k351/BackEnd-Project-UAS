@@ -49,45 +49,48 @@ CREATE TABLE `wishlist`(
   `customer_id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
   CONSTRAINT cust_wish FOREIGN KEY (customer_id) REFERENCES users(id),
-  CONSTRAINT prod_wish FOREIGN KEY (product_id) REFERENCES products(product_id)
+  CONSTRAINT prod_wish FOREIGN KEY (product_id) REFERENCES products(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `products` (
-  `product_id` bigint(20) UNSIGNED NOT NULL PRIMARY KEY,
+  `id` bigint(20) UNSIGNED NOT NULL PRIMARY KEY,
   `name` varchar(255) NOT NULL,
   `price` bigint(20) NOT NULL,
   `description` text,
   `date_added` DATE NOT NULL,
   `shop_id` bigint(20) NOT NULL,
   `stock` bigint(5) NOT NULL,
-  CONSTRAINT shop_prod FOREIGN KEY (shop_id) REFERENCES shops(shop_id)
+  `category_id` bigint(20) NOT NULL,
+  CONSTRAINT shop_prod FOREIGN KEY (shop_id) REFERENCES shops(id),
+  CONSTRAINT cat_prod FOREIGN KEY (category_id) REFERENCES categories(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `buy_history` (
-  `transaction_id` bigint(20) UNSIGNED NOT NULL PRIMARY KEY,
+  `id` bigint(20) UNSIGNED NOT NULL PRIMARY KEY,
+  `transaction_id` bigint(20) UNSIGNED NOT NULL,
   `customer_id` bigint(20) NOT NULL,
   `product_id` bigint(20) NOT NULL,
   `total` bigint(20) NOT NULL,
   `transaction_date` DATE NOT NULL,
   CONSTRAINT cust_buy FOREIGN KEY (customer_id) REFERENCES users(id),
-  CONSTRAINT prod_buy FOREIGN KEY (product_id) REFERENCES products(product_id)
+  CONSTRAINT prod_buy FOREIGN KEY (product_id) REFERENCES products(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `rating` (
-  `rating_id` bigint(20) UNSIGNED NOT NULL PRIMARY KEY,
+  `id` bigint(20) UNSIGNED NOT NULL PRIMARY KEY,
   `product_id` bigint(20) NOT NULL,
   `customer_id` bigint(20) NOT NULL,
-  `rating` bigint(1) UNSIGNED NOT NULL,
-  `review` text,
   `transaction_id` bigint(20) NOT NULL,
+  `rating` int(1) UNSIGNED NOT NULL,
+  `review` text,
   CONSTRAINT rate_chk CHECK (type>=1 AND type<=5),
   CONSTRAINT tran_rate FOREIGN KEY (transaction_id) REFERENCES buy_history(transaction_id),
   CONSTRAINT cust_rat FOREIGN KEY (customer_id) REFERENCES users(id),
-  CONSTRAINT prod_rat FOREIGN KEY (product_id) REFERENCES products(product_id)
+  CONSTRAINT prod_rat FOREIGN KEY (product_id) REFERENCES products(id)
 )
 
 CREATE TABLE `shops` (
-  `shop_id` bigint(20) UNSIGNED NOT NULL PRIMARY KEY,
+  `id` bigint(20) UNSIGNED NOT NULL PRIMARY KEY,
   `seller_id`bigint(20) NOT NULL,
   `shop_name` varchar(255) NOT NULL UNIQUE,
   `created_at` DATE NOT NULL,
