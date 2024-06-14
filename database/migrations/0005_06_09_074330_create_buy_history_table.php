@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('users');
             $table->bigInteger('total');
-            $table->date('transaction_date');
+            $table->timestamp('transaction_date')->useCurrent();
+            $table->timestamps();
         });
     }
 
