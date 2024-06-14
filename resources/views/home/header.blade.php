@@ -29,12 +29,7 @@
                             <input class="btn btn-success" type="submit" value="Logout">
                         </form>
 
-                        @if(auth()->user()->isSeller())
-                            <a class="btn btn-success" href="{{url('seller/dashboard/')}}">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                <span>Add Product</span>
-                            </a>
-                        @elseif(auth()->user()->isAdmin())
+                        @if(auth()->user()->isAdmin())
                             <a class="btn btn-success" href="{{url('admin/dashboard')}}">
                               <i class="fa fa-tachometer" aria-hidden="true"></i>
                               <span>To Dashboard</span>
