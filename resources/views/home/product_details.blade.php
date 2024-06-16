@@ -39,7 +39,7 @@
         <div class="col-md-10">
           <div class="box">
               <div class="div_center">
-                <img width="400" src="/products/{{$data->image}}" alt="">
+                <img width="400" src="/images/{{$data->image}}" alt="">
               </div>
 
 
@@ -52,7 +52,7 @@
               </div>
 
               <div class="detail-box">
-                <h6>Category: {{$data->category_name}}</h6>
+                <h6>Category: {{$data->category->category_name}}</h6>
                 <h6>Available Quantity
                   <span>{{$data->stock}}</span>
                 </h6>
