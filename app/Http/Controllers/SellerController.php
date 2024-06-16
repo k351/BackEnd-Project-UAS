@@ -30,7 +30,7 @@ $shops = Shop::create([
 ]);
 
 $user = Auth::user();
-$user->usertype = 'seller';
+$user->type = 'seller';
 $user->save();
 
 return redirect()->route('home');
