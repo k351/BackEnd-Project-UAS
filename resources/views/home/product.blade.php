@@ -10,17 +10,19 @@
         @foreach($product as $product)
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="box">
-            <a href="">
               <div class="img-box">
-                <img src="products/{{$products->image}}" alt="">
+                <img src="products/{{$product->image}}" alt="">
               </div>
               <div class="detail-box">
-                <h6>{{$products->name}}</h6>
+                <h6>{{$product->name}}</h6>
                 <h6>Price
-                  <span>{{$products->price}}</span>
+                  <span>{{$product->price}}</span>
                 </h6>
               </div>
-            </a>
+
+              <div style="padding:15px">
+                <a class="btn btn-danger" href="{{url('product_details', $product->id)}}">Details</a>
+              </div>
           </div>
         </div>
 
