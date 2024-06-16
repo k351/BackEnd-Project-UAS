@@ -56,7 +56,7 @@ $request->validate([
     'product_stock' => 'required|integer',
     'product_price' => 'required|numeric',
     'product_description' => 'required|string',
-    'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
 ]);
 
 try {

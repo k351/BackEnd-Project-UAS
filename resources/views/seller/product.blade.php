@@ -64,15 +64,6 @@
                 <ul id="productdropdown" class="collapse list-unstyled">
                     <div class="div_deg">
 
-                      @if($errors->any())
-                      <div class="alert alert-danger">
-                          <ul>
-                              @foreach ($errors->all() as $error)
-                                  <li>{{ $error }}</li>
-                              @endforeach
-                          </ul>
-                      </div>
-                  @endif
 
                       <form action="{{ route('upload_product') }}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -117,7 +108,17 @@
                 </ul>
             </div>
         </div>
-
+        <div class="div_deg">
+            @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+        </div>
         <div>
             <table class="table_deg">
                 <tr>
