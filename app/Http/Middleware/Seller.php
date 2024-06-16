@@ -16,7 +16,7 @@ class Seller
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->usertype !='seller'){
+        if(Auth::user()->type !='seller'){
             return redirect('/');
         }
 
