@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SellerController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\PreventBackHistory;
 
@@ -30,6 +31,18 @@ Route::middleware(['auth', 'admin', 'prevent'])->group(function()
     Route::get('delete_category/{id}', [AdminController::class, 'delete_category']);
     Route::get('edit_category/{id}', [AdminController::class, 'edit_category']);
     Route::post('update_category/{id}', [AdminController::class, 'update_category']);
+});
+
+Route::middleware(['auth', 'prevent'])->group(function () {
+    Route::get('/register-seller', [SellerController::class, 'create'])->name('create.seller');
+    Route::post('/register-seller', [SellerController::class, 'registerSeller'])->name('register.seller');
+});
+
+Route::middleware(['auth', 'seller', 'prevent'])->group(function () {
+    Route::get('seller/dashboard/', [SellerController::class, 'view_dashboard'])->name('create.seller_dashboard');
+    Route::get('seller/view_product', [SellerController::class, 'view_product'])->name('view.product');
+    Route::post('add_product', [SellerController::class, 'upload_product'])->name('add_product');
+    Route::post('upload_product', [SellerController::class, 'upload_product'])->name('upload_product');
 });
 
 Route::get('/get-csrf-token', function () {
