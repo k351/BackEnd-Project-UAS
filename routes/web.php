@@ -37,3 +37,7 @@ Route::get('/get-csrf-token', function () {
 });
 
 Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
+Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', PreventBackHistory::class]);
+Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
+
+Route::get('product_details/{id}', [HomeController::class, 'product_details']);
