@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'prevent' => \App\Http\Middleware\PreventBackHistory::class,
             'seller' => \App\Http\Middleware\Seller::class,
             'repass' => \App\Http\Middleware\AdminResetMiddleware::class,
+            'rating' => \App\Http\Middleware\RatingMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

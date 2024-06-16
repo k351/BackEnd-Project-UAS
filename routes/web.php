@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SellerController;
-use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\PreventBackHistory;
+use App\Http\Controllers\WishlistController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
@@ -54,3 +55,8 @@ Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['au
 Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
 
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
+
+Route::middleware(['auth', 'rating'])->group(function () {
+    Route::get('/rate/{transaction_id}/{product_id}', [RatingController::class, 'rate'])->name('rating.form');
+    Route::post('/rate', [RatingController::class, 'postRate'])->name('rating.store');
+});
