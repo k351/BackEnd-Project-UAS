@@ -8,7 +8,7 @@ use App\Models\Category;
 class AdminController extends Controller
 {
     public function view_category(){
-        $data = Category::all();
+        $data = Category::paginate(5);
 
         return view('admin.category', compact('data'));
     }
