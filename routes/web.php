@@ -22,7 +22,18 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', PreventBackHistory::class]);
-Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
+Route::middleware(['auth', 'admin', 'prevent'])->group(function()
+{
+    Route::get('admin/dashboard', [HomeController::class, 'index']);
+    Route::get('view_category', [AdminController::class, 'view_category']);
+    Route::post('add_category', [AdminController::class, 'add_category']);
+    Route::get('delete_category/{id}', [AdminController::class, 'delete_category']);
+    Route::get('edit_category/{id}', [AdminController::class, 'edit_category']);
+    Route::post('update_category/{id}', [AdminController::class, 'update_category']);
+});
+
+Route::get('/get-csrf-token', function () {
+    return response()->json(['token' => csrf_token()]);
+});
 
 Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
