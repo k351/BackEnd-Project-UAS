@@ -49,8 +49,16 @@ class SellerController extends Controller
 
     public function view_product()
     {
-        $data = Product::all();
+        $user = Auth::user();
+        $shop = $user->shop;
+        
+        if (!$shop) {
+            return redirect()->back()->withErrors(['error' => 'You do not have a shop.']);
+        }
+
+        $data = Product::where('shop_id', $shop->id)->get();
         $category = Category::all();
+
         return view('seller.product', compact('category', 'data'));
     }
 
