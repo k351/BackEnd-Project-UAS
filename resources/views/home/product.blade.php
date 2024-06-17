@@ -1,20 +1,19 @@
     <section class="shop_section layout_padding">
         <div class="container">
-            <div class="heading_container heading_center">
-                <h2>
-                    Latest Products
-                </h2>
-            </div>
-            <div class="row">
-
-                @foreach ($product as $product)
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="products/{{ $product->image }}" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h6>{{ $product->name }}</h6>
+        <div class="heading_container heading_center">
+            <h2>
+            Latest Products
+            </h2>
+        </div>
+        <div class="row">
+                @foreach($product as $product)
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="box">
+                    <div class="img-box">
+                        <img src="{{ asset('products/' . $product->image) }}" alt="{{ $product->name }}">
+                    </div>
+                    <div class="detail-box">
+                        <h6>{{$product->name}}</h6>
 
                                 @php $exists = collect($wishlist)->contains('product_id',$product->id); @endphp
                                 <!-- Product ID exists in the array -->
@@ -36,6 +35,4 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-        </div>
-    </section>
+        </section>

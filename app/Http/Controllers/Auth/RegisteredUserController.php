@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
 
 class RegisteredUserController extends Controller
 {
@@ -32,7 +34,27 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                function ($attribute, $value, $fail) {
+                    if (strlen($value) < 8) {
+                        $fail('The password must be at least 8 characters.');
+                    }
+                    if (!preg_match('/[A-Z]/', $value)) {
+                        $fail('The password must contain at least one uppercase letter.');
+                    }
+                    if (!preg_match('/[a-z]/', $value)) {
+                        $fail('The password must contain at least one lowercase letter.');
+                    }
+                    if (!preg_match('/\d/', $value)) {
+                        $fail('The password must contain at least one digit.');
+                    }
+                    if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $value)) {
+                        $fail('The password must contain at least one symbol.');
+                    }
+                },
+            ],
         ]);
 
         $user = User::create([
