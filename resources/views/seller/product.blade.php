@@ -130,21 +130,23 @@
                         <div style="display: flex; justify-content: right;">Description</div>
                     </th>
                     <th>Image</th>
-                    <th>Actions</th>
+                    <th colspan="2">Actions</th>
                 </tr>
-                @foreach($data as $data)
+                @foreach($data as $product)
                 <tr>
-                    <td>{{$data->name}}</td>
-                    <td>{{$data->category->category_name}}</td>
-                    <td>{{$data->stock}}</td>
-                    <td>{{$data->price}}</td>
-                    <td>{{$data->description}}</td>
+                    <td>{{$product->name}}</td>
+                    <td>{{$product->category->category_name}}</td>
+                    <td>{{$product->stock}}</td>
+                    <td>{{$product->price}}</td>
+                    <td>{{$product->description}}</td>
                     <td>
-                      <img height = "120px" width = "120px" src="{{ asset('products/'.$data->image) }}" alt="{{$data->name}}">
+                      <img height = "120px" width = "120px" src="{{ asset('products/'.$product->image) }}" alt="{{$product->name}}">
                     </td>
                     <td>
-                        <a class="btn btn-success" href="{{url('edit_category', $data->id)}}">Edit</a>
-                        <a class="btn btn-danger" onclick="confirmation(event)" href="{{url('delete_category', $data->id)}}">Delete</a>
+                        <a class="btn btn-success" href="{{url('edit_product', $product->id)}}">Edit</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" onclick="confirmation(event)" href="{{url('delete_product', $product->id)}}">Delete</a>
                     </td>
                 </tr>
                 @endforeach
@@ -159,7 +161,7 @@
             var urlToRedirect = ev.currentTarget.getAttribute('href');
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'You will not be able to recover this category!',
+                text: 'You will not be able to recover this Product!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -197,5 +199,7 @@
             toastr.success("{{ Session::get('toastr') }}");
         @endif
     </script>
+
+
 </body>
 </html>

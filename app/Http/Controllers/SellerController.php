@@ -70,7 +70,7 @@ class SellerController extends Controller
             'product_stock' => 'required|integer',
             'product_price' => 'required|numeric',
             'product_description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         DB::beginTransaction();
@@ -116,5 +116,39 @@ class SellerController extends Controller
             Log::error('Product upload error: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'There was an error uploading the product.']);
         }
+    }
+
+    public function delete_product($id){
+        $data = Product::find($id);
+        $data->delete();
+        session()->flash('toastr', 'Product deleted successfully');
+        return redirect()->back();
+    }
+
+    public function edit_product($id){
+        $data = Product::find($id);
+        $category = Category::all();
+        return view('seller.edit_product', compact('data', 'category'));
+    }
+
+    public function update_product(Request $request, $id)
+    {
+        $request->validate([
+            'product_name' => 'required|string|max:255',
+            'category' => 'required|exists:categories,id',
+            'product_stock' => 'required|integer',
+            'product_price' => 'required|numeric',
+            'product_description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        $data = Product::find($id);
+        $data->name = $request->product_name;
+        $data->category_id = $request->category;
+        $data->stock = $request->product_stock;
+        $data->price = $request->product_price;
+        $data->description = $request->product_description;
+        $data->save();
+        session()->flash('toastr', 'Product updated successfully');
+        return redirect()->route('view.product');
     }
 }
