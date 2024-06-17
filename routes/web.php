@@ -13,7 +13,7 @@ use App\Http\Controllers\TransactionController;
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
 
-Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', /*'verified'*/])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -55,8 +55,9 @@ Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_
 Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', PreventBackHistory::class]);
 Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
 
-
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
+Route::get('product_details/{id}/transaction', [TransactionController::class, 'index'])->name('transaction.index'); # this
+Route::patch('/update-quantity/{id}', [TransactionController::class, 'updateQuantity'])->name('update.quantity');
 
 Route::middleware(['auth', 'rating'])->group(function () {
     Route::get('/rate/{transaction_id}/{product_id}', [RatingController::class, 'rate'])->name('rating.form');
