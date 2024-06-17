@@ -57,7 +57,6 @@ Route::get('view_category', [AdminController::class, 'view_category'])->middlewa
 
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('product_details/{id}/transaction', [TransactionController::class, 'index'])->name('transaction.index'); # this
-Route::patch('/update-quantity/{id}', [TransactionController::class, 'updateQuantity'])->name('update.quantity');
 
 Route::middleware(['auth', 'rating'])->group(function () {
     Route::get('/rate/{transaction_id}/{product_id}', [RatingController::class, 'rate'])->name('rating.form');
