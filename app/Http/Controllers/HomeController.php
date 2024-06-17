@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $product = Product::all();
+        $product = Product::paginate(8);
             $wishlist = DB::table('wishlist')
                 ->select('id','product_id')
                 ->where('customer_id', 1)
@@ -32,5 +32,14 @@ class HomeController extends Controller
     public function product_details($id){
         $data = Product::find($id);
         return view('home.product_details', compact('data'));
+    }
+
+    public function shop_page(){
+        $product = Product::all();
+        $wishlist = DB::table('wishlist')
+                ->select('id','product_id')
+                ->where('customer_id', 1)
+                ->get()-> toArray();
+        return view('home.shop_page',compact('product', 'wishlist'));
     }
 }
