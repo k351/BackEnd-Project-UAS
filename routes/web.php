@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/transaction', [TransactionController::class, 'create'])->name('transaction.create'); # this
 });
 
-require _DIR_.'/auth.php';
+require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'admin', 'prevent'])->group(function()
 {

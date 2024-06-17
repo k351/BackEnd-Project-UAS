@@ -70,16 +70,16 @@ class SellerController extends Controller
             'product_stock' => 'required|integer',
             'product_price' => 'required|numeric',
             'product_description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
         DB::beginTransaction();
-
+    
         try {
             $user = Auth::user();
             $shop = $user->shop;
             $data = new Product;
-
+    
             $data->name = $request->product_name;
             $data->category_id = $request->category;
             $data->stock = $request->product_stock;
@@ -89,30 +89,20 @@ class SellerController extends Controller
             $data->date_added = now();
             $data->created_at = now();
             $data->updated_at = now();
-
+    
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imagename = time() . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('temp', $imagename);
+                $image->move(public_path('products'), $imagename);
                 $data->image = $imagename;
             }
-
+    
             $data->save();
-
-            if (isset($path)) {
-                Storage::move($path, 'public/products/' . $imagename);
-            }
-
             DB::commit();
-
+    
             return redirect()->back()->with('toastr', 'Product added successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-
-            if (isset($path)) {
-                Storage::delete($path);
-            }
-
             Log::error('Product upload error: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'There was an error uploading the product.']);
         }

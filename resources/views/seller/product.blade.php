@@ -140,7 +140,7 @@
                     <td>{{$product->price}}</td>
                     <td>{{$product->description}}</td>
                     <td>
-                      <img height = "120px" width = "120px" src="{{ asset('products/'.$product->image) }}" alt="{{$product->name}}">
+                        <img height="120px" width="120px" src="{{ asset('products/' . $product->image) }}">
                     </td>
                     <td>
                         <a class="btn btn-success" href="{{url('edit_product', $product->id)}}">Edit</a>
