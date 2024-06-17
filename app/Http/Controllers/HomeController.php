@@ -30,11 +30,6 @@ class HomeController extends Controller
         return view('home.index', compact('product', 'wishlist'));
     }
 
-    public function index(){
-
-        return view('admin.index');
-    }
-
     public function product_details($id){
         $data = Product::find($id);
         return view('home.product_details', compact('data'));

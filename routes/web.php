@@ -6,7 +6,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\PreventBackHistory;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\TransactionController;
 
@@ -27,7 +26,7 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'admin', 'prevent'])->group(function()
 {
-    Route::get('admin/dashboard', [HomeController::class, 'index']);
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('view_category', [AdminController::class, 'view_category']);
     Route::post('add_category', [AdminController::class, 'add_category']);
     Route::get('delete_category/{id}', [AdminController::class, 'delete_category']);
@@ -61,11 +60,7 @@ Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->name('wi
 Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
 Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
 
-Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', PreventBackHistory::class]);
-Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
-
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
-Route::get('product_details/{id}/transaction', [TransactionController::class, 'index'])->name('transaction.index');
 Route::get('shop_page', [HomeController::class, 'shop_page']);
 Route::get('product_search', [HomeController::class, 'product_search']);
 
