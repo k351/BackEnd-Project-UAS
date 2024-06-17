@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('users')->ondelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade');
+            $table->bigInteger('quantity');
             $table->timestamp('created_date')->useCurrent();
         });
     }
