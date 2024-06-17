@@ -8,6 +8,7 @@ use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
@@ -18,8 +19,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/transaction', [ProfileController::class]); # this
-    Route::post('/transaction', [ProfileController::class]); # this
+    Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index'); # this
+    Route::post('/transaction', [TransactionController::class, 'create'])->name('transaction.create'); # this
 });
 
 require __DIR__.'/auth.php';
@@ -53,6 +54,7 @@ Route::get('/get-csrf-token', function () {
 Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
 Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', PreventBackHistory::class]);
 Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
+
 
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 

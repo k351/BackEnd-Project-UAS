@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Transaction extends Model
 {
     use HasFactory;
-    protected $table = 'buy_history';
-    
+
     protected $fillable =[
         "customer_id",
         "total",
