@@ -67,9 +67,10 @@
                     <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                 </a>
 
-                <form class="form-inline">
-                    <input type="text" id="search-box" class="form-control" style="display:none;"
+                <form class="form-inline" action="{{url('product_search')}}">
+                    <input type="text" id="search-box" name="search" class="form-control" style="display:none;"
                         placeholder="Search...">
+                    <input type="submit" id="submit-btn" class="btn btn-success" value="Search" style="display:none;">
                     <button class="btn nav_search-btn" type="button" id="search-button" style="margin-left: 20px;">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
@@ -84,12 +85,15 @@
     document.addEventListener('DOMContentLoaded', function() {
         const searchButton = document.getElementById('search-button');
         const searchBox = document.getElementById('search-box');
+        const submitBtn = document.getElementById('submit-btn');
 
         searchButton.addEventListener('click', function() {
             if (searchBox.style.display === 'none' || searchBox.style.display === '') {
                 searchBox.style.display = 'block';
+                submitBtn.style.display = 'block';
             } else {
                 searchBox.style.display = 'none';
+                submitBtn.style.display = 'none';
             }
         });
     });
