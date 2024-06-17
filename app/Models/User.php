@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -55,5 +55,20 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->type === 'admin';
+    }
+
+    /**
+     * Check if the user is a seller.
+     *
+     * @return bool
+     */
+    public function isSeller(): bool
+    {
+        return $this->type === 'seller';
+    }
+
+    public function shop()
+    {
+        return $this->hasOne(Shop::class, 'seller_id');
     }
 }

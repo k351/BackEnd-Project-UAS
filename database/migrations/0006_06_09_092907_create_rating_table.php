@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rating', function (Blueprint $table) {
+        Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->foreignId('customer_id')->constrained('users');
             $table->foreignId('transaction_id')->constrained('buy_history');
             $table->integer('rating');
             $table->text('review')->nullable();
+            $table->timestamps();
         });
     }
 

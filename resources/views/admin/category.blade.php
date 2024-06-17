@@ -85,6 +85,7 @@
                 </table>
 
                 <div class = "div_deg">
+                    {{$data->links( )}}
                 </div>
         </div>
 

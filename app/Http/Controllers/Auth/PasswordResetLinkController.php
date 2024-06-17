@@ -19,6 +19,14 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
+     * Display the password reset link for adminrequest view.
+     */
+    public function createadmin(): View
+    {
+        return view('auth.admin-forgot-password');
+    }
+
+    /**
      * Handle an incoming password reset link request.
      *
      * @throws \Illuminate\Validation\ValidationException
