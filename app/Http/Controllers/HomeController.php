@@ -35,7 +35,7 @@ class HomeController extends Controller
     }
 
     public function shop_page(){
-        $product = Product::all();
+        $product = Product::paginate(20);
         $wishlist = DB::table('wishlist')
                 ->select('id','product_id')
                 ->where('customer_id', 1)
