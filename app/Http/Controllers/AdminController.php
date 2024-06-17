@@ -3,24 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\User;
 use App\Models\Category;
-use App\Models\Product;
 
 class AdminController extends Controller
 {
-    public function index()
-    {
-        $totalUsers = User::count();
-        $totalSellers = User::where('type', 'seller')->count();
-        $totalCategories = Category::count();
-        $totalProducts = Product::count();
-        $users = User::paginate(5);
-    
-        return view('admin.index', compact('users', 'totalUsers', 'totalSellers', 'totalCategories', 'totalProducts'));
-    }
-
     public function view_category(){
         $data = Category::paginate(5);
 
@@ -67,19 +53,5 @@ class AdminController extends Controller
         session()->flash('toastr', 'Category updated successfully');
 
         return redirect('/view_category');
-    }
-
-    public function searchUsers(Request $request)
-    {
-        $search = $request->search;
-        $search = Str::lower($search);
-        $users = User::whereRaw('LOWER(name) LIKE ?', ["%{$search}%"])->paginate(5);
-
-        $totalUsers = User::count();
-        $totalSellers = User::where('type', 'seller')->count();
-        $totalCategories = Category::count();
-        $totalProducts = Product::count();
-
-        return view('admin.index', compact('users', 'totalUsers', 'totalSellers', 'totalCategories', 'totalProducts'));
     }
 }
