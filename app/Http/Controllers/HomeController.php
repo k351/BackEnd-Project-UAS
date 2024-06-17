@@ -30,13 +30,10 @@ class HomeController extends Controller
         return view('home.index', compact('product', 'wishlist'));
     }
 
-<<<<<<< Updated upstream
-=======
     public function index(){
         return view('admin.index');
     }
 
->>>>>>> Stashed changes
     public function product_details($id){
         $data = Product::find($id);
         return view('home.product_details', compact('data'));
