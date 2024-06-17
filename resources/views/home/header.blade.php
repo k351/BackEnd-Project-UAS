@@ -15,7 +15,7 @@
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="shop.html">
+          <a class="nav-link" href="{{url('shop_page')}}">
             Shop
           </a>
         </li>
