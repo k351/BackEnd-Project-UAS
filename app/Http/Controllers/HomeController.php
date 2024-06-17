@@ -22,7 +22,12 @@ class HomeController extends Controller
 
     public function login_home(){
         $product = Product::all();
-        return view('home.index',compact('product'));
+        $wishlist = DB::table('wishlist')
+            ->select('id', 'product_id')
+            ->where('customer_id', 1)
+            ->get()
+            ->toArray();
+        return view('home.index', compact('product', 'wishlist'));
     }
 
     public function index(){
