@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -14,28 +15,34 @@ class TransactionController extends Controller
             'product' => $data,
         ]);
     }
-    public function updateQuantity(Request $request, $id)
+
+    public function confirm(Request $request, $id)
     {
-        // Find the product
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
         $product = Product::find($id);
 
-        if ($product) {
-            // Adjust stock
-            if ($request->operation === 'increase') {
-                $product->stock++;
-            } elseif ($request->operation === 'decrease' && $product->stock > 1) {
-                $product->stock--;
-            }
-
-            // Save updated product
-            $product->save();
+        if ($validated['quantity'] > $product->stock) {
+            return back()->withErrors([
+                'quantity' => 'Jumlah yang diminta melebihi stok yang tersedia.',
+            ])->withInput();
         }
 
-        // Redirect back with updated quantities
-        return back();
+        $user = auth()->user();
+
+        $cartItem = Cart::updateOrCreate(
+            [
+                'product_id' => $id,
+                'user_id' => $user->id,
+            ],
+            [
+                'quantity' => $validated['quantity'],
+            ]
+        );
+
+        return redirect()->route('transaction.checkout', ['id' => $id]);
     }
 
-    public function store(Request $request) {
-
-    }
 }
