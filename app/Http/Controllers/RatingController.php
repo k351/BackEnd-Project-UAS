@@ -16,19 +16,21 @@ class RatingController extends Controller
     public function postRate(Request $request)
     {
         $request->validate([
-            'transaction_id' => 'required'|'integer',
-            'product_id' => 'required'|'integer',
-            'rating' => 'required'|'integer'|'between:1,5',
-            'review' => 'sometimes'|'string'|'max:1000',
+            'transaction_id' => 'required|integer',
+            'product_id' => 'required|integer',
+            'rating' => 'required|integer|between:1,5',
+            'review' => 'nullable|string'
         ]);
+
+        $review = $request->review ?? '-';
         $user = Auth::user();
         Rating::create([
             'product_id' => $request->product_id,
             'customer_id' => $user->id,
             'transaction_id' => $request->transaction_id,
-            'review' => $request->review,
+            'review' => $review,
             'rating' => $request->rating,
         ]);
-        return route('home');
+        return redirect()->route('home');
     }
 }
