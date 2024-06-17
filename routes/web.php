@@ -65,6 +65,7 @@ Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['au
 Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
 
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
+Route::get('product_details/{id}/transaction', [TransactionController::class, 'index'])->name('transaction.index');
 Route::get('shop_page', [HomeController::class, 'shop_page']);
 Route::get('product_search', [HomeController::class, 'product_search']);
 
