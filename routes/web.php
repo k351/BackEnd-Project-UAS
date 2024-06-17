@@ -57,6 +57,7 @@ Route::get('view_category', [AdminController::class, 'view_category'])->middlewa
 
 
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
+Route::get('shop_page', [HomeController::class, 'shop_page']);
 
 Route::middleware(['auth', 'rating'])->group(function () {
     Route::get('/rate/{transaction_id}/{product_id}', [RatingController::class, 'rate'])->name('rating.form');
