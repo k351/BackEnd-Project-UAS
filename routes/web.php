@@ -4,7 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\PreventBackHistory;
+use App\Models\Transaction;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
@@ -12,8 +14,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/transaction', [ProfileController::class]); # this
-    Route::post('/transaction', [ProfileController::class]); # this
+    Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index'); # this
+    Route::post('/transaction', [TransactionController::class, 'create'])->name('transaction.create'); # this
 });
 
 require __DIR__.'/auth.php';
