@@ -32,7 +32,7 @@ class SellerController extends Controller
 
     $shops = Shop::create([
         'shop_name' => $request->name,
-        'seller_id' => Auth::user()->i
+        'seller_id' => Auth::user()->id,
     ]);
 
     $user = Auth::user();
