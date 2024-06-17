@@ -51,10 +51,13 @@ Route::get('/get-csrf-token', function () {
     return response()->json(['token' => csrf_token()]);
 });
 
+// fungsi wishlist
+Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->name('wishlist');
 Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
+Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
+
 Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', PreventBackHistory::class]);
 Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
-
 
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('shop_page', [HomeController::class, 'shop_page']);
