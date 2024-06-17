@@ -11,7 +11,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\TransactionController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-
+Route::get('/rekomendasi', 'RecommendationController@index')->name('recommendations.index');
 
 Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/transaction', [TransactionController::class, 'create'])->name('transaction.create'); # this
 });
 
-require __DIR__.'/auth.php';
+require _DIR_.'/auth.php';
 
 Route::middleware(['auth', 'admin', 'prevent'])->group(function()
 {
@@ -45,12 +45,6 @@ Route::middleware(['auth', 'seller', 'prevent'])->group(function () {
     Route::get('seller/view_product', [SellerController::class, 'view_product'])->name('view.product');
     Route::post('add_product', [SellerController::class, 'upload_product'])->name('add_product');
     Route::post('upload_product', [SellerController::class, 'upload_product'])->name('upload_product');
-    Route::middleware(['product'])->group(function(){
-        Route::get('delete_product/{id}', [SellerController::class, 'delete_product'])->name('delete_product');
-        Route::get('edit_product/{id}', [SellerController::class, 'edit_product'])->name('edit_product');
-        Route::post('update_product/{id}', [SellerController::class, 'update_product'])->name('update_product');
-    });
-   
 });
 
 Route::get('/get-csrf-token', function () {
@@ -67,7 +61,6 @@ Route::get('view_category', [AdminController::class, 'view_category'])->middlewa
 
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('shop_page', [HomeController::class, 'shop_page']);
-Route::get('product_search', [HomeController::class, 'product_search']);
 
 Route::middleware(['auth', 'rating'])->group(function () {
     Route::get('/rate/{transaction_id}/{product_id}', [RatingController::class, 'rate'])->name('rating.form');
