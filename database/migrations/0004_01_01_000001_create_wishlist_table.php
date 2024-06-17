@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('wishlist', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained('users');
-            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('customer_id')->constrained('users')->ondelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onUpdate('cascade');
+            $table->bigInteger('quantity')->default(1);
             $table->timestamp('created_date')->useCurrent();
         });
     }

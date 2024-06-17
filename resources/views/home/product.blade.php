@@ -15,30 +15,24 @@
                     <div class="detail-box">
                         <h6>{{$product->name}}</h6>
 
-                        @php $exists = collect($wishlist)->contains('product_id',$product->id); @endphp
-
+                                @php $exists = collect($wishlist)->contains('product_id',$product->id); @endphp
                                 <!-- Product ID exists in the array -->
-                        <!-- Product ID exists in the array -->
-                        <a href="{{ route('wishlist.update', $product->id) }}">
-                            @if ($exists)
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                            @else
-                                <i class="fa fa-heart-o" aria-hidden="true"></i>
-                            @endif
-                        </a>
-                        </a>
-                        <h6>Price
-                        <span>{{$product->price}}</span>
-                        </h6>
+                                <a href="{{ route('wishlist.update', $product->id) }}">
+                                    @if ($exists)
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                    @else
+                                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                    @endif
+                                </a>
+                                <h6>Price
+                                    <span>{{ $product->price }}</span>
+                                </h6>
+                            </div>
+
+                            <div style="padding:15px">
+                                <a class="btn btn-danger" href="{{ url('product_details', $product->id) }}">Details</a>
+                            </div>
+                        </div>
                     </div>
-
-                    <div style="padding:15px">
-                        <a class="btn btn-danger" href="{{url('product_details', $product->id)}}">Details</a>
-                        <a class="btn btn-primary" href="">Add To Wishlist</a>
-                    </div>
-
-                </div>
-                </div>
-
                 @endforeach
         </section>
