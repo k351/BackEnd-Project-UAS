@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('shop_id')->constrained('shops');
             $table->integer('stock');
             $table->foreignId('category_id')->constrained('categories');
+            $table->timestamp('date_added')->nullable();
             $table->timestamps();
         });
     }
