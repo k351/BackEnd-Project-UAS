@@ -74,4 +74,3 @@ Route::middleware(['auth', 'rating'])->group(function () {
     Route::get('/rate/{transaction_id}/{product_id}', [RatingController::class, 'rate'])->name('rating.form');
     Route::post('/rate', [RatingController::class, 'postRate'])->name('rating.store');
 });
-
