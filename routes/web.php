@@ -58,10 +58,11 @@ Route::get('/get-csrf-token', function () {
 });
 
 // fungsi wishlist
-Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->name('wishlist');
-Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
+Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->middleware(['auth','verified'])->name('wishlist');
+Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->middleware(['auth', 'verified'])->name('wishlist.update');
 Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
 
+//product detail
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('shop_page', [HomeController::class, 'shop_page']);
 Route::get('product_search', [HomeController::class, 'product_search']);
@@ -70,3 +71,4 @@ Route::middleware(['auth', 'rating'])->group(function () {
     Route::get('/rate/{transaction_id}/{product_id}', [RatingController::class, 'rate'])->name('rating.form');
     Route::post('/rate', [RatingController::class, 'postRate'])->name('rating.store');
 });
+
