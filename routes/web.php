@@ -6,11 +6,13 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RekomendasiController;
+use App\Http\Middleware\PreventBackHistory;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\TransactionController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/rekomendasi', 'RecommendationController@index')->name('recommendations.index');
+Route::get('/rekomendasi', [RekomendasiController::class, "index"])->name('recommendations.index');
 
 Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', /*'verified'*/])->name('dashboard');
 
@@ -24,10 +26,9 @@ Route::middleware('auth')->group(function () {
     Route::post('product_details/{id}/checkout', [TransactionController::class, 'create'])->name('transaction.create');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::middleware(['auth', 'admin', 'prevent'])->group(function()
-{
+Route::middleware(['auth', 'admin', 'prevent'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('view_category', [AdminController::class, 'view_category']);
     Route::post('add_category', [AdminController::class, 'add_category']);
@@ -61,14 +62,12 @@ Route::get('/get-csrf-token', function () {
 });
 
 // fungsi wishlist
-Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->middleware(['auth','verified'])->name('wishlist');
-Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->middleware(['auth', 'verified'])->name('wishlist.update');
+Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->name('wishlist');
+Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
 Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
-
 //admin
 Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', 'prevent']);
 Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', 'prevent']);
-
 //product detail
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('shop_page', [HomeController::class, 'shop_page']);

@@ -1,5 +1,4 @@
 <header class="header_section">
-    
     <nav class="navbar navbar-expand-lg custom_nav-container ">
         <a class="navbar-brand" href="index.html">
             <span>
@@ -13,15 +12,18 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ">
-                 <li class="nav-item {{ request()->is('/') ? 'active':''}}">
+                <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                 <li class="nav-item {{ request()->is('shop_page') ? 'active':''}}">
+                <li class="nav-item {{ request()->is('/rekomendasi') ? 'active' : '' }}">
+                    <a class="nav-link" href="/rekomendasi">Recomendation <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item {{ request()->is('shop_page') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('shop_page') }}">
                         Shop
                     </a>
                 </li>
-                 <li class="nav-item {{ request()->is('wishlist') ? 'active':''}}">
+                <li class="nav-item {{ request()->is('wishlist') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('wishlist') }}">
                         Wishlist
                     </a>
@@ -68,7 +70,7 @@
                     <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                 </a>
 
-                <form class="form-inline" action="{{url('product_search')}}">
+                <form class="form-inline" action="{{ url('product_search') }}">
                     <input type="text" id="search-box" name="search" class="form-control" style="display:none;"
                         placeholder="Search...">
                     <input type="submit" id="submit-btn" class="btn btn-success" value="Search" style="display:none;">

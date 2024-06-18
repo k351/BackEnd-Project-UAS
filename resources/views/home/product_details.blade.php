@@ -68,12 +68,10 @@
         </div>
 
       </div>
-        <div class="text-center mt-4">
+       <div class="text-center mt-4">
             <a href="{{ route('transaction.index', $data->id) }}" class="btn btn-primary" style="background:green; color:white">Checkout</a>
          </div>
     </div>
-
-
   </section>
 
 
