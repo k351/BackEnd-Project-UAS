@@ -14,8 +14,8 @@ class Shop extends Model
         'seller_id',
     ];
 
-    public function shop()
+    public function seller()
     {
-        return $this->belongsTo(Shop::class, 'seller_id');
+        return $this->belongsTo(User::class, 'seller_id');
     }
 }
