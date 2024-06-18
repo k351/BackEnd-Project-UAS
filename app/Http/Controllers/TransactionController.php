@@ -73,7 +73,8 @@ class TransactionController extends Controller
                 ->with('error', 'Saldo tidak mencukupi untuk melakukan transaksi ini.');
         }
 
-        $product->stock = $product->stock - $cart->quantity;
+        $product->stock -= $cart->quantity;
+        $product->save();
 
         $user->wallet_balance -= $totalAmount;
         $user->save();
