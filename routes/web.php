@@ -34,6 +34,9 @@ Route::middleware(['auth', 'admin', 'prevent'])->group(function()
     Route::get('delete_category/{id}', [AdminController::class, 'delete_category']);
     Route::get('edit_category/{id}', [AdminController::class, 'edit_category']);
     Route::post('update_category/{id}', [AdminController::class, 'update_category']);
+    Route::get('/admin/search', [AdminController::class, 'searchUsers'])->name('admin.search');
+    Route::get('/admin/take_action/{id}', [AdminController::class, 'take_action'])->name('admin.take.action');
+    Route::post('/admin/timeout_ban/{id}', [AdminController::class, 'timeout_ban'])->name('admin.timeout.ban');
 });
 
 Route::middleware(['auth', 'prevent'])->group(function () {
@@ -58,10 +61,15 @@ Route::get('/get-csrf-token', function () {
 });
 
 // fungsi wishlist
-Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->name('wishlist');
-Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
+Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->middleware(['auth','verified'])->name('wishlist');
+Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->middleware(['auth', 'verified'])->name('wishlist.update');
 Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
 
+//admin
+Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', PreventBackHistory::class]);
+Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', PreventBackHistory::class]);
+
+//product detail
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('shop_page', [HomeController::class, 'shop_page']);
 Route::get('product_search', [HomeController::class, 'product_search']);
