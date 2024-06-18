@@ -65,6 +65,10 @@ Route::get('/wishlist/', [WishlistController::class, 'show_wishlist'])->middlewa
 Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->middleware(['auth', 'verified'])->name('wishlist.update');
 Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
 
+//admin
+Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', 'prevent']);
+Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', 'prevent']);
+
 //product detail
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('shop_page', [HomeController::class, 'shop_page']);

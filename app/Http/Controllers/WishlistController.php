@@ -1,12 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Support\Facades\DB;
-use App\Models\Product;
-use App\Models\Wishlist;
-use App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
@@ -21,28 +18,26 @@ class WishlistController extends Controller
 
 
     public function update_Wishlist($product_id)
-    {
-        // Asumsikan customer id = 1
-        $customer_id = 1;
-        //   $userId = Auth::id();
+    {   
+        $user = Auth::user();
 
         // Cek produk ada di wishlist customer atau belum
         $exists = DB::table('wishlist')->where('product_id', $product_id)
-            ->where('customer_id', $customer_id)->exists();
+            ->where('customer_id', $user->id)->exists();
 
         if ($exists) {
-            // kalau product belum ada, bakal ditambahkan
+            // kalau product ada, bakal didelete
             DB::table('wishlist')->where('product_id', $product_id)
-                ->where('customer_id', $customer_id)->delete();
+                ->where('customer_id', $user->id)->delete();
         } else {
-            // kalo ada, wishlist akan terhapus
-            DB::table('wishlist')->where('product_id', $product_id)
-                ->where('customer_id', $customer_id)->delete();
-            DB::table('wishlist')->insert(['product_id' => $product_id, 'customer_id' => $customer_id,]);
+            // kalau ga ada ditambahkan
+            DB::table('wishlist')->insert(['product_id' => $product_id, 'customer_id' => $user->id,]);
         }
-
-        //redirect ke home setelah mengupdate wishlist
-        return redirect()->route('home');
+        $exists = DB::table('wishlist')->orderBy('wishlist.product_id', 'asc')->join('products', 'products.id', "=", "wishlist.product_id")
+            ->select('wishlist.*', 'products.name as product_name', 'products.price as product_price')
+            ->get();
+        //redirect ke back setelah mengupdate wishlist
+        return redirect()->back();
     }
 
     public function delete_Wishlist($id)

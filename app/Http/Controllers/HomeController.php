@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use App\Models\Product;
 use App\Models\Wishlist;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -15,7 +16,7 @@ class HomeController extends Controller
         $product = Product::paginate(8);
             $wishlist = DB::table('wishlist')
                 ->select('id','product_id')
-                ->where('customer_id', 1)
+                ->where('customer_id', Auth::user()->id)
                 ->get()-> toArray();
         return view('home.index',compact('product','wishlist'));
     }
@@ -43,7 +44,7 @@ class HomeController extends Controller
         $product = Product::paginate(20);
         $wishlist = DB::table('wishlist')
                 ->select('id','product_id')
-                ->where('customer_id', 1)
+                ->where('customer_id', Auth::user()->id)
                 ->get()-> toArray();
         return view('home.shop_page',compact('product', 'wishlist'));
     }
