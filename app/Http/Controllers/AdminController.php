@@ -13,11 +13,11 @@ class AdminController extends Controller
 
     public function index()
     {
-        $totalUsers = User::count();
+        $totalUsers = User::where('type', '!=', 'admin')->count();
         $totalSellers = User::where('type', 'seller')->count();
         $totalCategories = Category::count();
         $totalProducts = Product::count();
-        $users = User::paginate(5);
+        $users = User::where('type', '!=', 'admin')->paginate(5);
 
         return view('admin.index', compact('users', 'totalUsers', 'totalSellers', 'totalCategories', 'totalProducts'));
     }
@@ -68,5 +68,44 @@ class AdminController extends Controller
         session()->flash('toastr', 'Category updated successfully');
 
         return redirect('/view_category');
+    }
+
+    public function searchUsers(Request $request)
+    {
+        $search = $request->search;
+        $search = Str::lower($search);
+        $users = User::whereRaw('LOWER(name) LIKE ?', ["%{$search}%"])
+                    ->where('type', '!=', 'admin')
+                    ->paginate(5);
+        $totalUsers = User::where('type', '!=', 'admin')->count();
+        $totalSellers = User::where('type', 'seller')->count();
+        $totalCategories = Category::count();
+        $totalProducts = Product::count();
+
+        return view('admin.index', compact('users', 'totalUsers', 'totalSellers', 'totalCategories', 'totalProducts'));
+    }
+
+    public function take_action($id){
+        $user = User::find($id);
+
+        if(!$user){
+            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
+        }
+        return view('admin.take_action', compact('user', 'id'));
+    }
+
+    public function timeout_ban(Request $request, $id){
+        $request->validate([
+            'reason' => 'required|min:5|max:1000',
+            'action' => 'required|in:timeout,ban'
+        ]);
+        $user = User::find($id);
+        if(!$user){
+            return redirect()->back()->withErrors(['error' => 'There is no user with the provided ID']);
+        }
+        $user->status=$request->action;
+        $user->reason=$request->reason;
+        $user->save();
+        return redirect()->route('admin.dashboard');
     }
 }

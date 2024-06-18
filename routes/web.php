@@ -34,6 +34,9 @@ Route::middleware(['auth', 'admin', 'prevent'])->group(function()
     Route::get('delete_category/{id}', [AdminController::class, 'delete_category']);
     Route::get('edit_category/{id}', [AdminController::class, 'edit_category']);
     Route::post('update_category/{id}', [AdminController::class, 'update_category']);
+    Route::get('/admin/search', [AdminController::class, 'searchUsers'])->name('admin.search');
+    Route::get('/admin/take_action/{id}', [AdminController::class, 'take_action'])->name('admin.take.action');
+    Route::post('/admin/timeout_ban/{id}', [AdminController::class, 'timeout_ban'])->name('admin.timeout.ban');
 });
 
 Route::middleware(['auth', 'prevent'])->group(function () {
