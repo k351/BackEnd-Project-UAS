@@ -58,7 +58,7 @@
             <h2 style="color: white";>Update Category</h2>
 
             <div class = "div_deg">
-              <form action="{{url('update_product', $data->id)}}" method="post">
+                <form action="{{url('update_product', $data->id)}}" method="post" enctype="multipart/form-data">
                 @csrf
                     <table>
                         <tr>

@@ -131,14 +131,36 @@ class SellerController extends Controller
             'product_description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-        $data = Product::find($id);
-        $data->name = $request->product_name;
-        $data->category_id = $request->category;
-        $data->stock = $request->product_stock;
-        $data->price = $request->product_price;
-        $data->description = $request->product_description;
+
+        try{
+            $data = Product::find($id);
+            $data->name = $request->product_name;
+            $data->category_id = $request->category;
+            $data->stock = $request->product_stock;
+            $data->price = $request->product_price;
+            $data->description = $request->product_description;
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imagename = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('products'), $imagename);
+
+                if ($data->image) {
+                    $imagePath = public_path('products/') . $data->image;
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+                }
+
+            $data->image = $imagename;
+        }
         $data->save();
+
         session()->flash('toastr', 'Product updated successfully');
         return redirect()->route('view.product');
+    } catch (\Exception $e) {
+        Log::error('Product update error: ' . $e->getMessage());
+        return redirect()->back()->withErrors(['error' => 'There was an error updating the product.']);
+        }
     }
 }
