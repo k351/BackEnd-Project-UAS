@@ -8,15 +8,26 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .search-bar {
+        .search-bar-container {
             margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
         }
-css
-Copy code
-    .user-actions button {
-        margin-left: 10px;
-    }
-</style>
+        .search-bar {
+        margin-right: 10px;
+        flex-grow: 1;
+        }
+        .user-actions-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        .user-actions-container form {
+            flex: 1;
+            margin: 0 2px;
+        }
+    </style>
 </head>
 <body>
     <h2 class="h5 no-margin-bottom">Dashboard</h2>
@@ -89,7 +100,12 @@ Copy code
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <input type="text" id="search-bar" class="form-control search-bar" placeholder="Search for users...">
+                    <form action="{{route('admin.search')}}" method="get">
+                        <div class="search-bar-container">
+                                <input type="text" id="search" name="search" class="form-control search-bar" placeholder="Search for users...">
+                                <button class="btn btn-danger">Search</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -108,10 +124,12 @@ Copy code
                         <h3 class="h5">{{ $user->name }}</h3>
                         <span>{{ $user->email }}</span>
                     </a>
-                    <div class="contributions">{{ $user->contributions }} Contributions</div>
-                    <div class="user-actions mt-3"> <!-- Added mt-3 class for margin-top -->
-                        <button class="btn btn-warning timeout-btn">Timeout</button>
-                        <button class="btn btn-danger ban-btn">Ban</button>
+                    <div>{{ $user->name }} cases Reported</div>
+                    <div class="user-actions-container mt-3">
+                        <form action="{{route('admin.take.action',['id' => $user->id])}}" method="get">
+                            @csrf
+                            <button class="btn btn-warning timeout-btn">Take Action</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -135,29 +153,5 @@ Copy code
         </div>
     </div>
 </footer>
-
-<script>
-    $(document).ready(function () {
-        // Search functionality
-        $('#search-bar').on('keyup', function () {
-            var value = $(this).val().toLowerCase();
-            $('#user-list .user-block').filter(function () {
-                $(this).toggle($(this).attr('data-username').toLowerCase().indexOf(value) > -1 || $(this).attr('data-usertype').toLowerCase().indexOf(value) > -1)
-            });
-        });
-
-        // Timeout button click handler
-        $(document).on('click', '.timeout-btn', function () {
-            var username = $(this).closest('.user-block').attr('data-username');
-            alert('User ' + username + ' has been timed out.');
-        });
-
-        // Ban button click handler
-        $(document).on('click', '.ban-btn', function () {
-            var username = $(this).closest('.user-block').attr('data-username');
-            alert('User ' + username + ' has been banned.');
-        });
-    });
-</script>
 </body>
 </html>
