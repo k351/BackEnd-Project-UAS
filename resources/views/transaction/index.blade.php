@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    @include('home.css')
 </head>
 <body>
-    @include('home.css')
-    @include('home.header')
+    <div class="hero_area">
+        @include('home.header')
+    </div>
 
     <div class="container my-4">
         <div class="row justify-content-center">
@@ -27,7 +29,7 @@
                                 <p class="mb-0 text-muted">Rp {{ number_format($product->price, 0, '', '.') }}</p>
                             </div>
                             <div class="col-md-4">
-                                <form method="POST" action="{{ route('transaction.checkout', ['id' => $product->id]) }}">
+                                <form method="POST" action="{{ route('transaction.confirm', ['id' => $product->id]) }}">
                                     @csrf
                                     <div class="form-group">
                                         <label for="quantity">Jumlah</label>

@@ -18,8 +18,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index'); # this
-    Route::post('/transaction', [TransactionController::class, 'create'])->name('transaction.create'); # this
+    Route::get('product_details/{id}/confirm', [TransactionController::class, 'index'])->name('transaction.index');
+    Route::post('product_details/{id}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
+    Route::get('product_details/{id}/checkout', [TransactionController::class, 'checkout'])->name('transaction.checkout');
+    Route::post('product_details/{id}/checkout', [TransactionController::class, 'create'])->name('transaction.create');
 });
 
 require __DIR__.'/auth.php';
@@ -61,9 +63,6 @@ Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_
 Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
 
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
-Route::get('product_details/{id}/confirm', [TransactionController::class, 'index'])->name('transaction.index');
-Route::post('product_details/{id}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
-Route::get('product_details/{id}/checkout', [TransactionController::class, 'checkout'])->name('transaction.checkout');
 Route::get('shop_page', [HomeController::class, 'shop_page']);
 Route::get('product_search', [HomeController::class, 'product_search']);
 
