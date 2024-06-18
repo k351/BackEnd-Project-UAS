@@ -14,10 +14,15 @@ class HomeController extends Controller
     public function home()
     {
         $product = Product::paginate(8);
+        if (Auth::check()) {
             $wishlist = DB::table('wishlist')
-                ->select('id','product_id')
+                ->select('id', 'product_id')
                 ->where('customer_id', Auth::user()->id)
-                ->get()-> toArray();
+                ->get()
+                ->toArray();
+        } else {
+            $wishlist = [];
+        }
         return view('home.index',compact('product','wishlist'));
     }
 
@@ -42,10 +47,15 @@ class HomeController extends Controller
 
     public function shop_page(){
         $product = Product::paginate(20);
-        $wishlist = DB::table('wishlist')
-                ->select('id','product_id')
+        if (Auth::check()) {
+            $wishlist = DB::table('wishlist')
+                ->select('id', 'product_id')
                 ->where('customer_id', Auth::user()->id)
-                ->get()-> toArray();
+                ->get()
+                ->toArray();
+        } else {
+            $wishlist = [];
+        }
         return view('home.shop_page',compact('product', 'wishlist'));
     }
 
