@@ -9,13 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Transaction extends Model
 {
     use HasFactory;
-<<<<<<< Updated upstream
-    protected $table = 'buy_history';
-=======
 
     protected $table = 'buy_history';
-    
->>>>>>> Stashed changes
+
     protected $fillable =[
         "customer_id",
         "total",
