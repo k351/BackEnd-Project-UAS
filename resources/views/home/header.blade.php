@@ -1,8 +1,8 @@
 <header class="header_section">
     <nav class="navbar navbar-expand-lg custom_nav-container ">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="/">
             <span>
-                Giftos
+                BACKEND UAS
             </span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

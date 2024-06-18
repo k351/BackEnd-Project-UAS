@@ -5,21 +5,17 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SellerController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\RekomendasiController;
 
-Route::get('/', [HomeController::class, 'home'])->name('home')->middleware(['check', 'auth']);
+Route::get('/', [HomeController::class, 'home'])->name('home')->middleware(['check', 'prevent']);
 Route::get('/status', [HomeController::class, 'status'])->name('status')->middleware('auth');
 Route::get('/rekomendasi', [RekomendasiController::class, "index"])->name('recommendation.index');
 
-Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', 'prevent'])->name('dashboard');
 
 Route::middleware(['auth', 'check'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('product_details/{id}/confirm', [TransactionController::class, 'index'])->name('transaction.index');
     Route::post('product_details/{id}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
     Route::get('product_details/{id}/checkout', [TransactionController::class, 'checkout'])->name('transaction.checkout');
@@ -62,7 +58,7 @@ Route::get('/get-csrf-token', function () {
 });
 
 // Wishlist routes
-Route::middleware(['auth', 'verified', 'check'])->group(function () {
+Route::middleware(['auth', 'verified', 'check', 'prevent'])->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'show_wishlist'])->name('wishlist');
     Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
     Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
