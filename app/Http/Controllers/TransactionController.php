@@ -45,4 +45,14 @@ class TransactionController extends Controller
         return redirect()->route('transaction.checkout', ['id' => $id]);
     }
 
+    public function checkout(Request $request, $id) {
+        $user = auth()->user();
+        $product = Product::findOrFail($id);
+        $cart = Cart::where('user_id', $user->id) ->where('product_id', $id)->firstOrFail();
+
+        return view('transaction.checkout', [
+            'product' => $product,
+            'cart' => $cart,
+        ]);
+    }
 }
