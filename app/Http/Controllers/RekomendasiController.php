@@ -19,6 +19,6 @@ class RekomendasiController extends Controller
             ->where('customer_id', 1)
             ->get()->toArray();
 
-        return view('recomendations.index', compact('recommendedProducts', 'wishlist'));
+        return view('recomendations.recomendation', compact('recommendedProducts', 'wishlist'));
     }
 }

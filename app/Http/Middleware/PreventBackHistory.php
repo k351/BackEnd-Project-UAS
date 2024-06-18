@@ -1,17 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Middleware;
 
-use App\Models\Product;
+use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class RecommendationController extends Controller
+class PreventBackHistory
 {
-    public function index()
-    {
-        // Mengambil produk yang direkomendasikan (contoh sederhana)
-        $recommendedProducts = Product::inRandomOrder()->limit(10)->get();
-
-        return view('recommendations.index', compact('recommendedProducts'));
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {   
+        $response = $next($request);
+        return $response->header('Cache-Control', 'no-cache, no-store, max-age=0;must-revalidate')
+                        ->header('Pragma', 'no-cache')
+                        ->header('Expires','Sun, 02 Jan 1880 00:00:00 GMT');
     }
 }

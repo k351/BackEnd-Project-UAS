@@ -12,6 +12,6 @@ class RecommendationController extends Controller
         // Mengambil produk yang direkomendasikan (contoh sederhana)
         $recommendedProducts = Product::inRandomOrder()->limit(10)->get();
 
-        return view('recommendations.index', compact('recommendedProducts'));
+        return view('recomendations.recomendation', compact('recommendedProducts'));
     }
 }

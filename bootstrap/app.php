@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'repass' => \App\Http\Middleware\AdminResetMiddleware::class,
             'rating' => \App\Http\Middleware\RatingMiddleware::class,
             'product' => \App\Http\Middleware\DeleteProductMiddleware::class,
+            'check' => \App\Http\Middleware\CheckUserStatus::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

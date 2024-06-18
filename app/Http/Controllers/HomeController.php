@@ -69,4 +69,11 @@ class HomeController extends Controller
                 ->get()-> toArray();
         return view('home.shop_page',compact('product', 'wishlist'));
     }
+
+    public function status()
+    {
+        $user = Auth::user();
+
+        return view('auth.status');
+    }
 }
