@@ -94,9 +94,11 @@
             if (searchBox.style.display === 'none' || searchBox.style.display === '') {
                 searchBox.style.display = 'block';
                 submitBtn.style.display = 'block';
+                searchButton.style.display = 'none';
             } else {
                 searchBox.style.display = 'none';
                 submitBtn.style.display = 'none';
+                searchButton.style.display = 'block';
             }
         });
     });
