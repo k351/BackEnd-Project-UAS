@@ -3,7 +3,7 @@
    @include('layouts.head')
 
     <body>
-       @include('layouts.menu')
+       @include('home.header')
         <!-- end hero area -->
 
         <!-- shop section -->
