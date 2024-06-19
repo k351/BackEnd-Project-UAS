@@ -39,7 +39,7 @@
                                     <div class="col-lg-4 product-block">
                                         <div class="block text-center">
                                             <div class="avatar">
-                                                <img src="{{ $product->image }}" alt="Product Image" class="img-fluid">
+                                                <img height="120px" width="120px" src="{{ asset('products/' . $product->image) }}">
                                             </div>
                                             <div class="product-title">
                                                 <h3 class="h5">{{ $product->name }}</h3>

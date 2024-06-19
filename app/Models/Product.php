@@ -30,7 +30,7 @@ class Product extends Model
         return $this->belongsTo(Shop::class, 'shop_id');
     }
 
-    public function rating(){
+    public function ratings(){
         return $this->hasMany(Rating::class, 'product_id');
     }
 }
