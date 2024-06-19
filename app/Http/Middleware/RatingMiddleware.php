@@ -27,7 +27,7 @@ class RatingMiddleware
             return redirect('/login');
         }
 
-        $history = Transaction::where('id', $transaction_id)->where('customer_id', $user->id);
+        $history = Transaction::where('id', $transaction_id)->where('customer_id', $user->id)->first();
 
         if (!$history) {
             return redirect()->back();

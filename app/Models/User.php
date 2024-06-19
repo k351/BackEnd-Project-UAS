@@ -67,6 +67,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->type === 'seller';
     }
 
+    public function isBanned(): bool
+    {
+        return $this->status === 'banned';
+    }
+
+    public function isTimedOut(): bool
+    {
+        return $this->status === 'timeout';
+    }
+
     public function shop()
     {
         return $this->hasOne(Shop::class, 'seller_id');

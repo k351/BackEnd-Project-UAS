@@ -10,11 +10,10 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                 <div class="box">
                     <div class="img-box">
-                        <img src="images/{{$product->image}}" alt="">
+                        <img src="{{ asset('products/' . $product->image) }}" alt="{{ $product->name }}">
                     </div>
                     <div class="detail-box">
                         <h6>{{$product->name}}</h6>
-
                                 @php $exists = collect($wishlist)->contains('product_id',$product->id); @endphp
                                 <!-- Product ID exists in the array -->
                                 <a href="{{ route('wishlist.update', $product->id) }}">
@@ -36,3 +35,20 @@
                     </div>
                 @endforeach
         </section>
+        
+         <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mengembalikan posisi scroll setelah halaman dimuat
+            if (localStorage.getItem('scrollPosition') !== null) {
+                window.scrollTo(0, parseInt(localStorage.getItem('scrollPosition')));
+                localStorage.removeItem('scrollPosition');
+            }
+    
+            // Menyimpan posisi scroll sebelum pengalihan
+            document.querySelectorAll('a').forEach(function(element) {
+                element.addEventListener('click', function () {
+                    localStorage.setItem('scrollPosition', window.scrollY);
+                });
+            });
+        });
+    </script>

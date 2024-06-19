@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('wallet_balance')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
+            $table->enum('status', ['timeout', 'banned', 'none'])->default('none');
+            $table->string('reason')->default('-');
             $table->timestamps();
         });
 
