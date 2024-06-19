@@ -87,24 +87,54 @@ class AdminController extends Controller
 
     public function take_action($id){
         $user = User::find($id);
-
         if(!$user){
             return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
         }
-        return view('admin.take_action', compact('user', 'id'));
+        if($user->status !== "none"){
+            return redirect()->back()->withErrors(['error' => 'user already been banned/timeout']);
+        }
+        return view('admin.take_action', compact('user'));
     }
 
     public function timeout_ban(Request $request, $id){
         $request->validate([
             'reason' => 'required|min:5|max:1000',
-            'action' => 'required|in:timeout,ban'
+            'action' => 'required|in:timeout,banned'
         ]);
         $user = User::find($id);
         if(!$user){
-            return redirect()->back()->withErrors(['error' => 'There is no user with the provided ID']);
+            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
+        }
+        if($user->status !== "none"){
+            return redirect()->back()->withErrors(['error' => 'user already been banned/timeout']);
         }
         $user->status=$request->action;
         $user->reason=$request->reason;
+        $user->save();
+        return redirect()->route('admin.dashboard');
+    }
+
+    public function remove_action($id){
+        $user = User::find($id);
+        if(!$user){
+            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
+        }
+        if($user->status === "none"){
+            return redirect()->back()->withErrors(['error' => 'user has not been banned/timeout']);
+        }
+        return view('admin.remove_action', compact('user'));
+    }
+
+    public function untimeout_unban($id){
+        $user = User::find($id);
+        if(!$user){
+            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
+        }
+        if($user->status === "none"){
+            return redirect()->back()->withErrors(['error' => 'user has not been banned/timeout']);
+        }
+        $user->status="none";
+        $user->reason="-";
         $user->save();
         return redirect()->route('admin.dashboard');
     }

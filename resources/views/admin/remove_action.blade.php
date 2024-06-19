@@ -41,17 +41,11 @@
                       <h3 class="h5">{{ $user->name }}</h3>
                       <span>{{ $user->email }}</span>
                   </a>
-                  <div>{{ $user->name }} cases Reported</div>
+                  <div>Reason Banned: {{$user->reason}}</div>
                   <div class="user-actions-container mt-3">
-                    <form action="{{route('admin.timeout.ban', ['id' => $user->id])}}" method="post">
-                      @csrf
-                      <div class="form-group">
-                          <textarea name="reason" id="reason" rows="5" placeholder="Reason to timeout/ban"></textarea>
-                      </div>
-                      
-                      <button type="submit" name="action" value="timeout" class="btn btn-warning timeout-btn">Timeout</button>
-                      <button type="submit" name="action" value="banned" class="btn btn-danger ban-btn">Ban</button>
-                      
+                    <form action="{{route('admin.untimeout.unban', ['id' => $user->id])}}" method="post">
+                      @csrf                      
+                      <button type="submit" name="action" class="btn btn-warning timeout-btn">Unban</button>
                     </form>          
                   </div>
               </div>

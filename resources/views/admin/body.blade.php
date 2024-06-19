@@ -125,11 +125,20 @@
                         <span>{{ $user->email }}</span>
                     </a>
                     <div>{{ $user->name }} cases Reported</div>
+                    <div>Status: {{ $user->status }} </div>
                     <div class="user-actions-container mt-3">
-                        <form action="{{route('admin.take.action',['id' => $user->id])}}" method="get">
-                            @csrf
-                            <button class="btn btn-warning timeout-btn">Take Action</button>
-                        </form>
+                        @if($user->status === "none")
+                            <form action="{{route('admin.take.action',['id' => $user->id])}}" method="get">
+                                @csrf
+                                <button class="btn btn-warning timeout-btn">Take Action</button>
+                            </form>
+                        @else
+                            <form action="{{route('admin.remove.action',['id' => $user->id])}}" method="get">
+                                @csrf
+                                <button class="btn btn-warning timeout-btn">Remove Action</button>
+                            </form>
+                        @endif
+
                     </div>
                 </div>
             </div>
