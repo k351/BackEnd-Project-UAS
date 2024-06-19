@@ -36,6 +36,11 @@
                         </ul>
                         <form method="POST" action="{{ route('transaction.create', ['id' => $product->id]) }}">
                             @csrf
+                            @if(session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                             <button type="submit" class="btn btn-primary btn-block mt-3">Bayar</button>
                         </form>
                     </div>

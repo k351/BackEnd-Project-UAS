@@ -8,6 +8,7 @@
     @include('home.css')
 </head>
 <body>
+
     <div class="hero_area">
         @include('home.header')
     </div>
@@ -36,6 +37,11 @@
                                     <div class="form-group">
                                         <label for="quantity">Jumlah</label>
                                         <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1" required>
+                                        @if(session('error'))
+                                            <div class="alert alert-danger">
+                                                {{ session('error') }}
+                                            </div>
+                                         @endif
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-block">Confirm</button>
                                 </form>
