@@ -10,9 +10,10 @@
     </div>
     <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
     <ul class="list-unstyled">
-            <li class="active"><a href="/seller/dashboard"> <i class="icon-home"></i>Home</a></li>
-            <li class="active"><a href="/seller/view_product"> <i class="icon-home"></i>Product</a></li>
-            <li class="active"><a href="/"> <i class="icon-home"></i>Back To Main Page</a></li>
+            <li class="active"><a href="{{route('create.seller.dashboard')}}"> <i class="icon-home"></i>Home</a></li>
+            <li class="active"><a href="{{route('view.product')}}"> <i class="icon-home"></i>Product</a></li>
+            <li class="active"><a href="{{route('home')}}"> <i class="icon-home"></i>Back To Main Page</a></li>
+            <li class="active"><a href="{{route('get.review')}}"> <i class="icon-home">Review</i></a></li>
     </ul>
   </nav>
   <!-- Sidebar Navigation end-->

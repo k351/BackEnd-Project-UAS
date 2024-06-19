@@ -163,4 +163,15 @@ class SellerController extends Controller
         return redirect()->back()->withErrors(['error' => 'There was an error updating the product.']);
         }
     }
+
+    public function get_review(){
+    $shop = Auth::user()->shop;
+    if ($shop){
+        $products = $shop->products()->with('ratings.customer')->get();
+    } 
+    else{
+        $products = [];
+    }
+    return view('seller.review', compact('products'));
+    }
 }

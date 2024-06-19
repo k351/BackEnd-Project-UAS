@@ -29,4 +29,8 @@ class Product extends Model
     {
         return $this->belongsTo(Shop::class, 'shop_id');
     }
+
+    public function rating(){
+        return $this->hasMany(Rating::class, 'product_id');
+    }
 }

@@ -46,6 +46,7 @@ Route::middleware(['auth', 'seller', 'prevent', 'check'])->group(function () {
     Route::get('seller/view_product', [SellerController::class, 'view_product'])->name('view.product');
     Route::post('add_product', [SellerController::class, 'upload_product'])->name('add_product');
     Route::post('upload_product', [SellerController::class, 'upload_product'])->name('upload_product');
+    Route::get('get_review', [SellerController::class, 'get_Review'])->name('get.review');
     Route::middleware(['product'])->group(function () {
         Route::get('delete_product/{id}', [SellerController::class, 'delete_product'])->name('delete_product');
         Route::get('edit_product/{id}', [SellerController::class, 'edit_product'])->name('edit_product');
@@ -57,6 +58,14 @@ Route::get('/get-csrf-token', function () {
     return response()->json(['token' => csrf_token()]);
 });
 
+// fungsi wishlist
+Route::get('/wishlist', [WishlistController::class, 'show_wishlist'])->middleware(['auth','verified'])->name('wishlist');
+Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->middleware(['auth', 'verified'])->name('wishlist.update');
+Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
+
+//admin
+Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin', 'prevent']);
+Route::get('view_category', [AdminController::class, 'view_category'])->middleware(['auth', 'admin', 'prevent']);
 // Wishlist routes
 Route::middleware(['auth', 'verified', 'check', 'prevent'])->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'show_wishlist'])->name('wishlist');
