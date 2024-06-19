@@ -10,7 +10,7 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                 <div class="box">
                     <div class="img-box">
-                        <img src="{{ asset('products/' . $product->image) }}" alt="{{ $product->name }}">
+                        <img src="/images/{{$product->image}}" alt="{{ $product->name }}">
                     </div>
                     <div class="detail-box">
                         <h6>{{$product->name}}</h6>
