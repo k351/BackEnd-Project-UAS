@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\TransactionItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,9 +28,8 @@ class TransactionController extends Controller
         $product = Product::find($id);
 
         if ($validated['quantity'] > $product->stock) {
-            return back()->withErrors([
-                'quantity' => 'Jumlah yang diminta melebihi stok yang tersedia.',
-            ])->withInput();
+            return redirect()->route('transaction.index', ['id' => $id])
+            ->with('error', 'Stock produk tidak tersedia');
         }
 
         $user = auth()->user();
@@ -43,6 +43,8 @@ class TransactionController extends Controller
                 'quantity' => $validated['quantity'],
             ]
         );
+
+        $request->session()->put('cart_id', $cartItem->id);
 
         return redirect()->route('transaction.checkout', ['id' => $id]);
     }
@@ -58,7 +60,7 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function create(Request $request, $id)
+    public function create($id)
     {
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)
@@ -66,7 +68,7 @@ class TransactionController extends Controller
                     ->firstOrFail();
 
         $product = Product::findOrFail($id);
-        $totalAmount = ($product->price * $cart->quantity) + 3000; // Calculate the total amount
+        $totalAmount = ($product->price * $cart->quantity) + 3000;
 
         if ($user->wallet_balance < $totalAmount) {
             return redirect()->route('transaction.checkout', ['id' => $id])
@@ -82,10 +84,8 @@ class TransactionController extends Controller
         $seller = $product->shop->seller;
 
         if ($seller) {
-            // Calculate seller's earning (example: minus service fees)
-            $sellerEarning = $totalAmount - 3000; // Assuming fees are deducted from the total amount
+            $sellerEarning = $totalAmount - 3000;
 
-            // Update seller's wallet balance
             $seller->wallet_balance += $sellerEarning;
             $seller->save();
         }
@@ -93,6 +93,13 @@ class TransactionController extends Controller
         $transaction = Transaction::create([
             'customer_id' => $user->id,
             'total' => $totalAmount,
+        ]);
+
+        $transactionItems = TransactionItem::create([
+            'transaction_id' => $transaction->id,
+            'product_id'=> $id,
+            'price' => $transaction->total,
+            'quantity' => $cart->quantity,
         ]);
 
         $cart->delete();
