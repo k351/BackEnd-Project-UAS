@@ -27,6 +27,8 @@
                             <div class="col-md-4">
                                 <p class="mb-0 font-weight-bold">{{ $product->name }}</p>
                                 <p class="mb-0 text-muted">Rp {{ number_format($product->price, 0, '', '.') }}</p>
+                                <br>
+                                <p class="mb-0">Stock: {{ $product->stock }}</p>
                             </div>
                             <div class="col-md-4">
                                 <form method="POST" action="{{ route('transaction.confirm', ['id' => $product->id]) }}">
