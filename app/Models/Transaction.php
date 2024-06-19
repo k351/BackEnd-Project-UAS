@@ -17,8 +17,11 @@ class Transaction extends Model
         "total",
         "transaction_date"
     ];
+    public function users() {
+        return $this->belongsTo(User::class);
+    }
 
-    public function items()
+    public function transactionitems()
     {
         return $this->hasMany(TransactionItem::class);
     }
