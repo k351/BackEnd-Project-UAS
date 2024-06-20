@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -110,6 +111,7 @@ class AdminController extends Controller
         }
         $user->status=$request->action;
         $user->reason=$request->reason;
+        $user->action_time = Carbon::now();
         $user->save();
         return redirect()->route('admin.dashboard');
     }
@@ -135,7 +137,10 @@ class AdminController extends Controller
         }
         $user->status="none";
         $user->reason="-";
+        $user->action_time = null;
         $user->save();
         return redirect()->route('admin.dashboard');
     }
+
+
 }

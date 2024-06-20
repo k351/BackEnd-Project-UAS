@@ -76,4 +76,19 @@ class HomeController extends Controller
 
         return view('auth.status');
     }
+    
+    public function untimeout(){
+        $user = Auth::user();
+        if(!$user){
+            return redirect()->route('login');
+        }
+        if(!($user->isTimedOut())){
+            return redirect()->back();
+        }
+        $user->status="none";
+        $user->reason="-";
+        $user->action_time = null;
+        $user->save();
+        return redirect()->route('home');
+    }
 }

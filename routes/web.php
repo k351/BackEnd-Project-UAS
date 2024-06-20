@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home')->middleware(['check', 'prevent']);
 Route::get('/status', [HomeController::class, 'status'])->name('status')->middleware('auth');
+Route::get('/untimeout', [HomeController::class, 'untimeout'])->name('untimeout')->middleware('auth');
 Route::get('/rekomendasi', [RekomendasiController::class, "index"])->name('recommendation.index');
-
 Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', 'prevent'])->name('dashboard');
 
 Route::middleware(['auth', 'check'])->group(function () {
@@ -64,11 +64,6 @@ Route::middleware(['auth', 'seller', 'prevent', 'check'])->group(function () {
 Route::get('/get-csrf-token', function () {
     return response()->json(['token' => csrf_token()]);
 });
-
-// fungsi wishlist
-Route::get('/wishlist', [WishlistController::class, 'show_wishlist'])->middleware(['auth','verified'])->name('wishlist');
-Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->middleware(['auth', 'verified'])->name('wishlist.update');
-Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
 
 // Wishlist routes
 Route::middleware(['auth', 'verified', 'check', 'prevent'])->group(function () {

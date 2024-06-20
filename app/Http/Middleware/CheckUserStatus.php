@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CheckUserStatus
@@ -10,11 +11,15 @@ class CheckUserStatus
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-
-        if ($user && ($user->isBanned() || $user->isTimedOut())) {
+        if ($user && $user->isTimedOut()) {
+            if($user->action_time > Carbon::now()->subWeek()){
+                return redirect()->route('status');
+            }
+            return redirect()->route('untimeout');
+        }
+        if ($user && $user->isBanned()) {
             return redirect()->route('status');
         }
-
         return $next($request);
     }
 }
