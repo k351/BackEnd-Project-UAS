@@ -76,6 +76,8 @@ Route::middleware(['auth', 'verified', 'check', 'prevent'])->group(function () {
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('shop_page', [HomeController::class, 'shop_page']);
 Route::get('product_search', [HomeController::class, 'product_search']);
+Route::get('wallet_topup/{id}', [HomeController::class, 'wallet_topup']);
+Route::get('topping_up/{id}', [HomeController::class, 'topping_up']);
 
 // Rating routes
 Route::middleware(['auth', 'rating', 'check'])->group(function () {
