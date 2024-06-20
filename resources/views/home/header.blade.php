@@ -43,6 +43,10 @@
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 <span>Add Product</span>
                             </a>
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span>Balance: {{auth()->user()->wallet()}}</span>
+                            </a>
                         @elseif(auth()->user()->isAdmin())
                             <a class="btn btn-success" href="{{ url('admin/dashboard') }}">
                                 <i class="fa fa-tachometer" aria-hidden="true"></i>
@@ -52,6 +56,10 @@
                             <a class="btn btn-success" href="{{ url('/register-seller') }}">
                                 <i class="fa fa-briefcase" aria-hidden="true"></i>
                                 <span>Become a Seller</span>
+                            </a>
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span>Balance: {{auth()->user()->wallet()}}</span>
                             </a>
                         @endif
                     @else
