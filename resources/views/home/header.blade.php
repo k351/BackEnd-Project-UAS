@@ -43,7 +43,7 @@
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 <span>Add Product</span>
                             </a>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('wallet_topup', auth()->user()->user_id())}}">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 <span>Balance: {{auth()->user()->wallet()}}</span>
                             </a>
@@ -57,7 +57,7 @@
                                 <i class="fa fa-briefcase" aria-hidden="true"></i>
                                 <span>Become a Seller</span>
                             </a>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('wallet_topup', auth()->user()->user_id())}}">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 <span>Balance: {{auth()->user()->wallet()}}</span>
                             </a>
