@@ -17,6 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'phone',
@@ -86,5 +87,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function wallet()
     {
         return $this->wallet_balance;
+    }
+
+    public function user_id()
+    {
+        return $this->id;
     }
 }
