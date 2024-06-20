@@ -16,7 +16,6 @@
                             <h6>{{ $product->name }}</h6>
 
                             @php $exists = collect($wishlist)->contains('product_id',$product->id); @endphp
-                            <!-- Product ID exists in the array -->
                             <a href="{{ route('wishlist.update', $product->id) }}">
                                 @if ($exists)
                                     <i class="fa fa-heart" aria-hidden="true"></i>
@@ -28,7 +27,6 @@
                                 <span>{{ $product->price }}</span>
                             </h6>
                         </div>
-
                         <div style="padding:15px">
                             <a class="btn btn-danger" href="{{ url('product_details', $product->id) }}">Details</a>
                         </div>
