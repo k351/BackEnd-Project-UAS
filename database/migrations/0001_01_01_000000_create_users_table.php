@@ -24,6 +24,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->enum('status', ['timeout', 'banned', 'none'])->default('none');
             $table->string('reason')->default('-');
+            $table->timestamp('action_time')->nullable();
             $table->timestamps();
         });
 
