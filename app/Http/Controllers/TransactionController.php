@@ -44,8 +44,6 @@ class TransactionController extends Controller
             ]
         );
 
-        $request->session()->put('cart_id', $cartItem->id);
-
         return redirect()->route('transaction.checkout', ['id' => $id]);
     }
 

@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RatingController;
-use App\Http\Controllers\SellerController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\RekomendasiController;
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WishlistController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home')->middleware(['check', 'prevent']);
 Route::get('/status', [HomeController::class, 'status'])->name('status')->middleware('auth');
@@ -20,6 +21,7 @@ Route::middleware(['auth', 'check'])->group(function () {
     Route::post('product_details/{id}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
     Route::get('product_details/{id}/checkout', [TransactionController::class, 'checkout'])->name('transaction.checkout');
     Route::post('product_details/{id}/checkout', [TransactionController::class, 'create'])->name('transaction.create');
+    Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 });
 
 require __DIR__.'/auth.php';
