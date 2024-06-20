@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use App\Models\Wishlist;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -43,6 +44,20 @@ class HomeController extends Controller
     public function product_details($id){
         $data = Product::find($id);
         return view('home.product_details', compact('data'));
+    }
+
+    public function wallet_topup($id){
+        $user = User::find($id);
+        return view('home.wallet_topup', compact('user'));
+    }
+
+    public function topping_up($id, Request $request){
+        $user = User::find($id);
+        $current = $user->wallet_balance;
+        $after = $current + $request->quantity;
+        $user->wallet_balance=$after;
+        $user->save();
+        return redirect()->route('home');
     }
 
     public function shop_page(){
