@@ -61,11 +61,19 @@ class TransactionController extends Controller
     public function create($id)
     {
         $user = Auth::user();
+        $product = Product::findOrFail($id);
+        $seller = $product->shop->seller;
+
+        if($user->id == $seller->id ) {
+            return redirect()->route('transaction.checkout', ['id' => $id])
+            ->with('error', 'Tidak bisa membeli produk sendiri.');
+        }
+
         $cart = Cart::where('user_id', $user->id)
                     ->where('product_id', $id)
                     ->firstOrFail();
 
-        $product = Product::findOrFail($id);
+
         $totalAmount = ($product->price * $cart->quantity) + 3000;
 
         if ($user->wallet_balance < $totalAmount) {
@@ -79,7 +87,7 @@ class TransactionController extends Controller
         $user->wallet_balance -= $totalAmount;
         $user->save();
 
-        $seller = $product->shop->seller;
+
 
         if ($seller) {
             $sellerEarning = $totalAmount - 3000;

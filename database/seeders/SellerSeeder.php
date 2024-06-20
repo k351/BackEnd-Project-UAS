@@ -20,6 +20,7 @@ class SellerSeeder extends Seeder
             'name' => 'Seller',
             'email' => 'seller@example.com',
             'type' => 'seller',
+            "wallet_balance" => 100000,
             'phone' => '12345678',
             'address' => 'Seller Address',
             'email_verified_at' => now(),
