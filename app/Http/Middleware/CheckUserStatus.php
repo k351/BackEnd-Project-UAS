@@ -12,7 +12,7 @@ class CheckUserStatus
     {
         $user = Auth::user();
         if ($user && $user->isTimedOut()) {
-            if($user->action_time < Carbon::now()->subYear()){
+            if($user->action_time > Carbon::now()->subYear()){
                 return redirect()->route('status');
             }
             return redirect()->route('untimeout');
