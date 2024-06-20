@@ -130,7 +130,7 @@ class ProductSeeder extends Seeder
                 ],
                 [
                     'name' => 'cups',
-                    'image' => 'agency-img.png',
+                    'image' => 'agency-img.jpg',
                     'price' => 20000,
                     'description' => 'Basically ran out of pics',
                     'shop_id' => 1,

@@ -16,7 +16,7 @@
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item {{ request()->is('/rekomendasi') ? 'active' : '' }}">
-                    <a class="nav-link" href="/rekomendasi">Recomendation <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/rekomendasi">Recommendation <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item {{ request()->is('shop_page') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('shop_page') }}">
@@ -66,7 +66,7 @@
                     @endauth
                 @endif
 
-                <a href="">
+                <a href="{{ route('cart.index') }}">
                     <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                 </a>
 
