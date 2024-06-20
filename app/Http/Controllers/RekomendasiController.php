@@ -19,7 +19,7 @@ class RekomendasiController extends Controller
             ->select('id', 'product_id')
             ->where('customer_id', 1)
             ->get()->toArray();
-        return view('recomendations.recomendation', compact('recommendedProducts', 'wishlist'));
+        return view('Recommendations.recommendation_page', compact('recommendedProducts', 'wishlist'));
     } catch (\Exception $e) {
         return response()->json(['error' => $e->getMessage()], 500);
     }
