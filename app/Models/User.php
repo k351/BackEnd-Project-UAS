@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone',
         'address',
         'password',
+        'wallet_balance'
     ];
 
     /**
@@ -80,5 +81,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function shop()
     {
         return $this->hasOne(Shop::class, 'seller_id');
+    }
+
+    public function wallet()
+    {
+        return $this->wallet_balance;
     }
 }
