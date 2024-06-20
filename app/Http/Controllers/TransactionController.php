@@ -33,6 +33,12 @@ class TransactionController extends Controller
         }
 
         $user = auth()->user();
+        $seller = $product->shop->seller;
+
+        if($user->id === $seller->id ) {
+            return redirect()->route('transaction.confirm', ['id' => $id])
+            ->with('error', 'Tidak bisa membeli produk sendiri.');
+        }
 
         $cartItem = Cart::updateOrCreate(
             [
@@ -63,11 +69,6 @@ class TransactionController extends Controller
         $user = Auth::user();
         $product = Product::findOrFail($id);
         $seller = $product->shop->seller;
-
-        if($user->id == $seller->id ) {
-            return redirect()->route('transaction.checkout', ['id' => $id])
-            ->with('error', 'Tidak bisa membeli produk sendiri.');
-        }
 
         $cart = Cart::where('user_id', $user->id)
                     ->where('product_id', $id)
