@@ -22,6 +22,9 @@ Route::middleware(['auth', 'check'])->group(function () {
     Route::get('product_details/{id}/checkout', [TransactionController::class, 'checkout'])->name('transaction.checkout');
     Route::post('product_details/{id}/checkout', [TransactionController::class, 'create'])->name('transaction.create');
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+    Route::put('cart', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('cart', [CartController::class, 'delete'])->name('cart.delete');
+    Route::post('cart', [CartController::class, 'checkout'])->name('cart.checkout');
 });
 
 require __DIR__.'/auth.php';
