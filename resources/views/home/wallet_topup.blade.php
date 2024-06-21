@@ -15,4 +15,6 @@
             </x-primary-button>
         </div>
     </form>
+      <!-- Tombol untuk Transaction History -->
+<a href="{{ route('transaction.history') }}" class="btn btn-primary mt-4">Transaction History</a>
 </x-guest-layout>
