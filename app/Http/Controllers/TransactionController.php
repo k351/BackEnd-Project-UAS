@@ -108,9 +108,22 @@ class TransactionController extends Controller
             'price' => $transaction->total,
             'quantity' => $cart->quantity,
         ]);
+        
 
         $cart->delete();
 
         return redirect()->route('home');
     }
+    public function history()
+    {
+        // Ambil transaksi yang diurutkan berdasarkan waktu terbaru
+        $transactions = Transaction::orderByDesc('created_at')->get();
+    
+        // Kembalikan view transaction.history dengan data transaksi
+        return view('transaction.history', [
+            'transactions' => $transactions,
+        ]);
+    }
+    
+
 }
