@@ -32,5 +32,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <a href="{{ route('transaction.history') }}" class="btn btn-primary">Transaction History</a>
     </body>
 </html>
