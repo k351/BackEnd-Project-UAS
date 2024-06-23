@@ -19,23 +19,28 @@ Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['au
 Route::middleware(['auth', 'check'])->group(function () {
     Route::get('product_details/{id}/confirm', [TransactionController::class, 'index'])->name('transaction.index');
     Route::post('product_details/{id}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
-    Route::get('product_details/{id}/checkout', [TransactionController::class, 'checkout'])->name('transaction.checkout');
+    Route::get('product_details/checkout', [TransactionController::class, 'checkout'])->name('transaction.checkout');
     Route::post('product_details/{id}/checkout', [TransactionController::class, 'create'])->name('transaction.create');
+
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
     Route::put('cart', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('cart', [CartController::class, 'delete'])->name('cart.delete');
+    Route::get('delete_cart_item/{id}', [CartController::class, 'delete'])->name('cart.delete_cart_item');
     Route::post('cart', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::get('/cart', [CartController::class, 'showCart'])->name('cart.index');
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::middleware(['auth', 'admin', 'prevent'])->group(function() {
+Route::middleware(['auth', 'admin', 'prevent'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('view_category', [AdminController::class, 'view_category']);
     Route::post('add_category', [AdminController::class, 'add_category']);
     Route::get('delete_category/{id}', [AdminController::class, 'delete_category']);
     Route::get('edit_category/{id}', [AdminController::class, 'edit_category']);
     Route::post('update_category/{id}', [AdminController::class, 'update_category']);
+
     Route::get('/admin/search', [AdminController::class, 'searchUsers'])->name('admin.search');
     Route::get('/admin/take_action/{id}', [AdminController::class, 'take_action'])->name('admin.take.action');
     Route::get('/admin/remove_action/{id}', [AdminController::class, 'remove_action'])->name('admin.remove.action');
@@ -70,6 +75,7 @@ Route::middleware(['auth', 'verified', 'check', 'prevent'])->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'show_wishlist'])->name('wishlist');
     Route::get('/wishlist/update/{product_id}', [WishlistController::class, 'update_wishlist'])->name('wishlist.update');
     Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete_wishlist'])->name('wishlist.delete');
+    Route::post('/wishlist/move-to-cart', [WishlistController::class, 'WishlistToCart'])->name('wishlist.move_to_cart');
 });
 
 // Product detail, shop page, and product search routes
