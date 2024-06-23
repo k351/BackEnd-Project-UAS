@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-    public function index($id) {
+    public function index($id)
+    {
         $product = Product::find($id);
 
         return view("transaction.index", [
@@ -29,15 +30,15 @@ class TransactionController extends Controller
 
         if ($validated['quantity'] > $product->stock) {
             return redirect()->route('transaction.index', ['id' => $id])
-            ->with('error', 'Stock produk tidak tersedia');
+                ->with('error', 'Stock produk tidak tersedia');
         }
 
         $user = auth()->user();
         $seller = $product->shop->seller;
 
-        if($user->id === $seller->id ) {
+        if ($user->id === $seller->id) {
             return redirect()->route('transaction.confirm', ['id' => $id])
-            ->with('error', 'Tidak bisa membeli produk sendiri.');
+                ->with('error', 'Tidak bisa membeli produk sendiri.');
         }
 
         $cartItem = Cart::updateOrCreate(
@@ -53,13 +54,13 @@ class TransactionController extends Controller
         return redirect()->route('transaction.checkout', ['id' => $id]);
     }
 
-    public function checkout(Request $request, $id) {
+    public function checkout()
+    {
         $user = auth()->user();
-        $product = Product::findOrFail($id);
-        $cart = Cart::where('user_id', $user->id) ->where('product_id', $id)->firstOrFail();
-
+        $cart = Cart::where('user_id', $user->id)->where('status', 1)->get();
+        $total = Cart::where('user_id', $user->id)->where('status', 1)->count();
         return view('transaction.checkout', [
-            'product' => $product,
+            'total' => $total,
             'cart' => $cart,
         ]);
     }
@@ -71,8 +72,8 @@ class TransactionController extends Controller
         $seller = $product->shop->seller;
 
         $cart = Cart::where('user_id', $user->id)
-                    ->where('product_id', $id)
-                    ->firstOrFail();
+            ->where('product_id', $id)
+            ->firstOrFail();
 
 
         $totalAmount = ($product->price * $cart->quantity) + 3000;
@@ -86,7 +87,7 @@ class TransactionController extends Controller
         $product->save();
 
         $user->wallet_balance -= $totalAmount;
-        $user->save();
+    //    $user->save();
 
 
 
@@ -104,11 +105,11 @@ class TransactionController extends Controller
 
         $transactionItems = TransactionItem::create([
             'transaction_id' => $transaction->id,
-            'product_id'=> $id,
+            'product_id' => $id,
             'price' => $transaction->total,
             'quantity' => $cart->quantity,
         ]);
-        
+
 
         $cart->delete();
 
@@ -118,12 +119,10 @@ class TransactionController extends Controller
     {
         // Ambil transaksi yang diurutkan berdasarkan waktu terbaru
         $transactions = Transaction::orderByDesc('created_at')->get();
-    
+
         // Kembalikan view transaction.history dengan data transaksi
         return view('transaction.history', [
             'transactions' => $transactions,
         ]);
     }
-    
-
 }
