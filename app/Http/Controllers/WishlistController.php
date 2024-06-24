@@ -64,19 +64,23 @@ class WishlistController extends Controller
         if (!$wishlistItem) {
             return redirect()->back()->with('error', 'Item not found in wishlist.');
         }
-
-        // Tambahkan item dari wishlist ke cart
-        $cartItem = new Cart();
-        $cartItem->user_id = $user->id;
-        $cartItem->product_id = $wishlistItem->product_id;
-        $cartItem->quantity = 1; // Misalnya, set jumlah ke 1
-        $cartItem->save();
-
+        $cart = Cart::where('product_id', $wishlistItem->product_id)
+            ->where('user_id', $user->id)
+            ->whereIn('status', [0, 1]) // Check for status 0 or 1
+            ->first();
+        if (!$cart) {
+            $cart = Cart::create([
+                'user_id' => $user->id,
+                'product_id' => $wishlistItem->product_id,
+                'status' => 0,
+                'quantity' => 1
+            ]);
+        } else {
+            $cart->quantity += 1;
+            $cart->save();
+        }
         // Hapus item dari wishlist setelah ditambahkan ke cart
         DB::table('wishlist')->where('id', $wishlistId)->delete();
         return redirect()->route('wishlist')->with('success', 'Item moved to cart.');
     }
-
-
 }
-

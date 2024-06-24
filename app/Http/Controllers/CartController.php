@@ -11,7 +11,7 @@ class CartController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
+        $cartItems = Cart::where('user_id', $user->id)->whereIn('status', [0, 1])->with('product')->get();
         return view('cart.index', compact('cartItems'));
     }
 
@@ -19,10 +19,24 @@ class CartController extends Controller
     {
         $user = auth()->user();
         $cartUpdates = $request->input('cart');
-        foreach ($cartUpdates as $productId => $quantity) {
-            $cartItem = Cart::where('user_id', $user->id)->where('product_id', $productId)->first();
+        foreach ($cartUpdates as $items_id => $quantity) {
+            $cartItem = Cart::where('user_id', $user->id)->where('id', $items_id)->first();
             if ($cartItem) {
                 $cartItem->quantity = $quantity;
+                $cartItem->save();
+            }
+        }
+
+        $cartUpdates = $request->input('selectedItems');
+        //dd($cartUpdates);
+        foreach ($cartUpdates as $items_id => $status) {
+            $cartItem = Cart::where('user_id', $user->id)->where('id', $items_id)->first();
+            if ($cartItem) {
+                if ($status == 0) {
+                    $cartItem->status = 0;
+                } else {
+                    $cartItem->status = 1;
+                }
                 $cartItem->save();
             }
         }
@@ -41,24 +55,18 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-
-        $request->validate([
-            'selectedItems' => 'required|string',
-
-        ]);
-        // Proses Checkout
+        // Process Checkout
         $user = auth()->user();
-        $selectedItems = $request->input('selectedItems');
-        $selected_items = json_decode($selectedItems);
-        foreach ($selected_items as $cartItemId) {
-            // Misalnya, Anda ingin menandai item di keranjang sebagai sudah dibeli
-            $cartItem = Cart::where('id', $cartItemId)->where('user_id', $user->id)->first();
-            if ($cartItem) {
-                $cartItem->status = 1;
-                $cartItem->save();
-            }
+        $cart = Cart::where('user_id', $user->id)->whereIn('status', [1])->get();
+
+        if ($cart->isEmpty()) {
+            return redirect()
+                ->back()
+                ->withErrors('Please select a product to checkout.')
+                ->withInput();
         }
-        return redirect()->route('transaction.checkout')->with('success', 'Checkout completed.');
+
+        return redirect()->route('transaction.checkout')->with('success', 'Checkoutcompleted.');
     }
 
     public function addToCart(Request $request)

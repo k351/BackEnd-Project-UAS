@@ -38,9 +38,11 @@
                 <tbody>
                     @foreach ($cartItems as $item)
                         <tr>
-                            <td>
-                                <input type="checkbox" name="selectedItems[]"
-                                    value="{{ $item->product->id }}"id="item_{{ $item->id }}">
+                            <td><input type="hidden" name="selectedItems[{{ $item->id }}]"
+                                value="0">
+                                <input type="checkbox"name="selectedItems[{{ $item->id }}]"
+                                    value="{{ $item->product->id }}" id="item_{{ $item->id }}"
+                                    @if ($item->status == 1) checked @endif>
                             </td>
                             <td>
                                 <img src="{{ asset('products/' . $item->product->image) }}"
@@ -49,8 +51,8 @@
                             </td>
                             <td>Rp {{ number_format($item->product->price, 0, '', '.') }}</td>
                             <td>
-                                <input type="number" name="cart[{{ $item->product->id }}]"
-                                    value="{{ $item->quantity }}" min="1" style="width: 50px;">
+                                <input type="number" name="cart[{{ $item->id }}]" value="{{ $item->quantity }}"
+                                    min="1" style="width: 50px;">
                             </td>
                             <td>Rp {{ number_format($item->product->price * $item->quantity, 0, '', '.') }}</td>
                             <td>
@@ -61,6 +63,16 @@
                     @endforeach
                 </tbody>
             </table>
+            @if ($errors->any())
+                <div class="mt-3 mb-4 alert alert-danger">
+                    <ul style="margin-bottom: 0px;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+
+                </div>
+            @endif
             <button type="submit" class="my-2 btn btn-primary">Update Keranjang</button>
         </form>
 

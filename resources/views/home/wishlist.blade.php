@@ -37,7 +37,7 @@
             </div>
         @endif
         {{-- <div class="container my-5">
-            <div class="card shadow">
+            <div class="shadow card">
                 <div class="card-body">
                     @if ($wishlist->count() > 0)
 

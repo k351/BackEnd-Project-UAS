@@ -76,6 +76,7 @@ class TransactionController extends Controller
             $product = Product::findOrFail($id);
             $cart = Cart::where('user_id', $user->id)
                 ->where('product_id', $id)
+                ->where('status', 1)
                 ->firstOrFail();
 
             $amount = $product->price * $cart->quantity;
@@ -105,6 +106,7 @@ class TransactionController extends Controller
             }
         }
 
+        $user = User::find($user->id);
         $user->wallet_balance -= ($totalAmount + 3000);
         $user->save();
 
@@ -124,6 +126,7 @@ class TransactionController extends Controller
 
             $cart = Cart::where('user_id', $user->id)
                 ->where('product_id', $id)
+                ->where('status', 1)
                 ->firstOrFail();
 
             TransactionItem::create([
