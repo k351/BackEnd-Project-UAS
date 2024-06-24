@@ -144,12 +144,18 @@ class TransactionController extends Controller
 
     public function history()
     {
-        // Ambil transaksi yang diurutkan berdasarkan waktu terbaru
-        $transactions = Transaction::orderByDesc('created_at')->get();
+        $user = Auth::user();
 
-        // Kembalikan view transaction.history dengan data transaksi
+        if(!$user){
+            return redirect()->route('login');
+        }
+
+        $transactions = Transaction::orderByDesc('created_at')->where('customer_id', $user->id)->get();
+    
         return view('transaction.history', [
             'transactions' => $transactions,
         ]);
     }
+    
+
 }

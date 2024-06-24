@@ -14,7 +14,7 @@ Route::get('/', [HomeController::class, 'home'])->name('home')->middleware(['che
 Route::get('/status', [HomeController::class, 'status'])->name('status')->middleware('auth');
 Route::get('/untimeout', [HomeController::class, 'untimeout'])->name('untimeout')->middleware('auth');
 Route::get('/rekomendasi', [RekomendasiController::class, "index"])->name('recommendation.index');
-Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', 'prevent'])->name('dashboard');
+// Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', 'prevent'])->name('dashboard');
 
 Route::middleware(['auth', 'check'])->group(function () {
     Route::get('product_details/{id}/confirm', [TransactionController::class, 'index'])->name('transaction.index');
@@ -82,8 +82,10 @@ Route::middleware(['auth', 'verified', 'check', 'prevent'])->group(function () {
 Route::get('product_details/{id}', [HomeController::class, 'product_details']);
 Route::get('shop_page', [HomeController::class, 'shop_page']);
 Route::get('product_search', [HomeController::class, 'product_search']);
-Route::get('wallet_topup/{id}', [HomeController::class, 'wallet_topup']);
-Route::get('topping_up/{id}', [HomeController::class, 'topping_up']);
+Route::middleware(['auth', 'verified', 'check', 'prevent'])->group(function(){
+    Route::get('wallet_topup/{id}', [HomeController::class, 'wallet_topup']);
+    Route::get('topping_up/{id}', [HomeController::class, 'topping_up']);
+});
 
 // Rating routes
 Route::middleware(['auth', 'rating', 'check'])->group(function () {
