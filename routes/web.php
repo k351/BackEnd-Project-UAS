@@ -20,7 +20,7 @@ Route::middleware(['auth', 'check'])->group(function () {
     Route::get('product_details/{id}/confirm', [TransactionController::class, 'index'])->name('transaction.index');
     Route::post('product_details/{id}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
     Route::get('product_details/checkout', [TransactionController::class, 'checkout'])->name('transaction.checkout');
-    Route::post('product_details/{id}/checkout', [TransactionController::class, 'create'])->name('transaction.create');
+    Route::post('/checkout', [TransactionController::class, 'create'])->name('transaction.create');
 
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
     Route::put('cart', [CartController::class, 'update'])->name('cart.update');

@@ -20,13 +20,14 @@
                         <h5 class="card-title">Ringkasan Belanja</h5>
                         <ul class="list-group list-group-flush">
                             @php
-                                // var_dump($cart);
                                 $total_harga = 0;
+                                $product_ids = [];
                             @endphp
 
                             @foreach ($cart as $cartItem)
                                 @php
-                                //    $total_harga += $cartItem->product->harga * $cartItem->harga;
+                                   $total_harga += $cartItem->product->price * $cartItem->quantity;
+                                   array_push($product_ids, $cartItem->product->id);
                                 @endphp
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span> {{ $cartItem->product->name }} ({{$cartItem->quantity}})</span>
@@ -34,7 +35,9 @@
                                         {{ number_format($cartItem->product->price * $cartItem->quantity, 0, ',', '.') }}
                                     </span>
                                 </li>
+
                             @endforeach
+
                             {{-- <li class="list-group-item d-flex justify-content-between">
                                 <span>Total Harga {{ $cart->quantity }} Barang</span>
                                 <span>Rp {{ number_format($product->price * $cart->quantity, 0, ',', '.') }} </span>
@@ -49,12 +52,14 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between font-weight-bold">
                                 <span>Total Tagihan</span>
-                                <span>Rp
-                                    {{-- {{ number_format($product->price * $cart->quantity + 3000, 0, ',', '.') }}</span> --}}
+                                <span>Rp {{ number_format($total_harga + 3000, 0, ',', '.') }}</span>
                             </li>
                         </ul>
-                        <form method="POST" action="{{ route('transaction.create', ['id' => 1]) }}">
+                        <form method="POST" action="{{ route('transaction.create') }}">
                             @csrf
+                            @foreach ($product_ids as $id)
+                                <input type="hidden" name="product_ids[]" value="{{ $id }}">
+                            @endforeach
                             @if (session('error'))
                                 <div class="alert alert-danger">
                                     {{ session('error') }}

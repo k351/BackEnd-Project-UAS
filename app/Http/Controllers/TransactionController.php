@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,64 +58,87 @@ class TransactionController extends Controller
     public function checkout()
     {
         $user = auth()->user();
-        $cart = Cart::where('user_id', $user->id)->where('status', 1)->get();
-        $total = Cart::where('user_id', $user->id)->where('status', 1)->count();
+        $cart = Cart::where('user_id', $user->id)->get();
         return view('transaction.checkout', [
-            'total' => $total,
             'cart' => $cart,
         ]);
     }
 
-    public function create($id)
+    public function create(Request $request)
     {
+        $productIds = $request->input('product_ids');
         $user = Auth::user();
-        $product = Product::findOrFail($id);
-        $seller = $product->shop->seller;
 
-        $cart = Cart::where('user_id', $user->id)
-            ->where('product_id', $id)
-            ->firstOrFail();
+        $totalAmount = 0;
+        $sellerEarnings = [];
 
+        foreach ($productIds as $id) {
+            $product = Product::findOrFail($id);
+            $cart = Cart::where('user_id', $user->id)
+                ->where('product_id', $id)
+                ->firstOrFail();
 
-        $totalAmount = ($product->price * $cart->quantity) + 3000;
+            $amount = $product->price * $cart->quantity;
+            $totalAmount += $amount; // 3000 biaya tetap per produk
 
-        if ($user->wallet_balance < $totalAmount) {
-            return redirect()->route('transaction.checkout', ['id' => $id])
-                ->with('error', 'Saldo tidak mencukupi untuk melakukan transaksi ini.');
+            $seller = $product->shop->seller;
+
+            if ($user->id === $seller->id) {
+                return redirect()->route('transaction.confirm', ['id' => $id])
+                    ->with('error', 'Tidak bisa membeli produk sendiri.');
+            }
+            if ($user->wallet_balance < $totalAmount + 3000) {
+                return redirect()->route('transaction.checkout', ['id' => $id])
+                    ->with('error', 'Saldo tidak mencukupi untuk melakukan transaksi ini.');
+            }
+            if ($cart->quantity > $product->stock) {
+                return redirect()->route('transaction.index', ['id' => $id])
+                    ->with('error', 'Stock produk tidak tersedia');
+            }
+
+            $product->stock -= $cart->quantity;
+            $product->save();
+
+            $seller = $product->shop->seller;
+            if ($seller) {
+                $sellerEarnings[$seller->id] = ($sellerEarnings[$seller->id] ?? 0) + $amount;
+            }
         }
 
-        $product->stock -= $cart->quantity;
-        $product->save();
+        $user->wallet_balance -= ($totalAmount + 3000);
+        $user->save();
 
-        $user->wallet_balance -= $totalAmount;
-    //    $user->save();
-
-
-
-        if ($seller) {
-            $sellerEarning = $totalAmount - 3000;
-
-            $seller->wallet_balance += $sellerEarning;
+        foreach ($sellerEarnings as $sellerId => $earning) {
+            $seller = User::findOrFail($sellerId);
+            $seller->wallet_balance += $earning;
             $seller->save();
         }
 
         $transaction = Transaction::create([
             'customer_id' => $user->id,
-            'total' => $totalAmount,
+            'total' => $totalAmount + 3000,
         ]);
 
-        $transactionItems = TransactionItem::create([
-            'transaction_id' => $transaction->id,
-            'product_id' => $id,
-            'price' => $transaction->total,
-            'quantity' => $cart->quantity,
-        ]);
+        foreach ($productIds as $id) {
+            $product = Product::findorfail($id);
 
+            $cart = Cart::where('user_id', $user->id)
+                ->where('product_id', $id)
+                ->firstOrFail();
 
-        $cart->delete();
+            TransactionItem::create([
+                'transaction_id' => $transaction->id,
+                'product_id' => $id,
+                'price' => $product->price,
+                'quantity' => $cart->quantity,
+            ]);
+
+            $cart->delete();
+        }
 
         return redirect()->route('home');
     }
+
     public function history()
     {
         // Ambil transaksi yang diurutkan berdasarkan waktu terbaru
