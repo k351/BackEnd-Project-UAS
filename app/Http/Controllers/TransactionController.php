@@ -46,6 +46,7 @@ class TransactionController extends Controller
             [
                 'product_id' => $id,
                 'user_id' => $user->id,
+                'status' => 1,
             ],
             [
                 'quantity' => $validated['quantity'],
@@ -151,11 +152,11 @@ class TransactionController extends Controller
         }
 
         $transactions = Transaction::orderByDesc('created_at')->where('customer_id', $user->id)->get();
-    
+
         return view('transaction.history', [
             'transactions' => $transactions,
         ]);
     }
-    
+
 
 }
