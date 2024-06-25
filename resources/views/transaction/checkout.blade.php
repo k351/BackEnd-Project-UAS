@@ -33,13 +33,6 @@
                                     @endphp
 
                                     @if ($cartItem->status == 1)
-                                        <li class="list-group-item d-flex justify-content-between">
-                                            <span> {{ $cartItem->product->name }} ({{$cartItem->quantity}})</span>
-                                            <span>Rp
-                                                {{ number_format($cartItem->product->price * $cartItem->quantity, 0, ',', '.') }}
-                                            </span>
-                                        </li>
-
                                         <input type="hidden" name="product_ids[]" value="{{ $cartItem->product->id }}">
 
                                         <li class="list-group-item d-flex justify-content-between">
