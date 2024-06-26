@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Report;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -19,6 +20,10 @@ class AdminController extends Controller
         $totalCategories = Category::count();
         $totalProducts = Product::count();
         $users = User::where('type', '!=', 'admin')->paginate(5);
+
+        foreach ($users as $user) {
+            $user->reportsCount = Report::where('target_id', $user->id)->count();
+        }
 
         return view('admin.index', compact('users', 'totalUsers', 'totalSellers', 'totalCategories', 'totalProducts'));
     }
@@ -94,7 +99,9 @@ class AdminController extends Controller
         if($user->status !== "none"){
             return redirect()->back()->withErrors(['error' => 'user already been banned/timeout']);
         }
-        return view('admin.take_action', compact('user'));
+        $reportsCount = Report::where('target_id', $id)->count();
+        $reason = Report::where('reason')->get();
+        return view('admin.take_action', compact('user', 'reportsCount', 'reason'));
     }
 
     public function timeout_ban(Request $request, $id){
@@ -113,6 +120,8 @@ class AdminController extends Controller
         $user->reason=$request->reason;
         $user->action_time = Carbon::now();
         $user->save();
+
+        Report::where('target_id', $id)->delete();
         return redirect()->route('admin.dashboard');
     }
 

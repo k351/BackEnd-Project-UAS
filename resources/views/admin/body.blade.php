@@ -124,7 +124,7 @@
                         <h3 class="h5">{{ $user->name }}</h3>
                         <span>{{ $user->email }}</span>
                     </a>
-                    <div>{{ $user->name }} cases Reported</div>
+                    <div>{{ $user->name }} {{ $user->reportsCount }}x reported</div>
                     <div>Status: {{ $user->status }} </div>
                     <div class="user-actions-container mt-3">
                         @if($user->status === "none")
