@@ -55,9 +55,12 @@ Route::middleware(['auth', 'seller', 'prevent', 'check'])->group(function () {
     Route::get('seller/dashboard/', [SellerController::class, 'view_dashboard'])->name('create.seller_dashboard');
     Route::get('seller/view_product', [SellerController::class, 'view_product'])->name('view.product');
     Route::get('/seller/search', [SellerController::class, 'search'])->name('seller.search');
+    Route::get('/seller/rating_search', [SellerController::class, 'rating_search'])->name('seller.rating.search');
     Route::post('add_product', [SellerController::class, 'upload_product'])->name('add_product');
     Route::post('upload_product', [SellerController::class, 'upload_product'])->name('upload_product');
     Route::get('get_review', [SellerController::class, 'get_Review'])->name('get.review');
+    Route::get('report_user/{id}/{rating_id}', [SellerController::class, 'report_user'])->name('report.user');
+    Route::post('give_report/{id}/{rating_id}', [SellerController::class, 'give_report'])->name('give.report');
     Route::middleware(['product'])->group(function () {
         Route::get('delete_product/{id}', [SellerController::class, 'delete_product'])->name('delete_product');
         Route::get('edit_product/{id}', [SellerController::class, 'edit_product'])->name('edit_product');

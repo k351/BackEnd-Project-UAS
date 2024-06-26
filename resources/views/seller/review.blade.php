@@ -29,6 +29,20 @@
     @include('seller.sidebar')
     <div class="page-content">
         <div class="page-header">
+            <section class="no-padding-bottom">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form action="{{ route('seller.rating.search') }}" method="get">
+                                <div class="search-bar-container">
+                                    <input type="text" id="search" name="search" class="form-control search-bar" placeholder="Search for products...">
+                                    <button class="btn btn-danger">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <div class="container-fluid">
                 <!-- Product Blocks with Ratings -->
                 <section class="no-padding-bottom">
@@ -50,6 +64,9 @@
                                                 <div>Rating: {{ $rating->rating }}</div>
                                                 <div>Review: {{ $rating->review }}</div>
                                             </div>
+                                            <form action="{{route('report.user', ['id' => $rating->customer_id, 'rating_id' => $rating->id])}}" method="get">
+                                                <button class="btn btn-danger">Report</button>
+                                            </form>
                                         </div>
                                     </div>
                                 @endforeach

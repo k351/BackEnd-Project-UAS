@@ -2,13 +2,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shop;
+use App\Models\User;
+use App\Models\Rating;
+use App\Models\Report;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class SellerController extends Controller
@@ -76,6 +79,20 @@ class SellerController extends Controller
     }
 
     return view('seller.index', compact('products', 'totalStock'));
+}
+
+public function rating_search(Request $request)
+{
+    // Get the authenticated seller
+    $shop = Auth::user()->shop;
+    $searchTerm = $request->input('search');
+
+    if ($shop) {
+        $products = $shop->products()->where('name', 'ILIKE', '%' . $searchTerm . '%')->with('ratings.customer')->get();
+    } else {
+        $products = [];
+    }
+    return view('seller.review', compact('products'));
 }
 
     public function view_product()
@@ -204,5 +221,44 @@ class SellerController extends Controller
         $products = [];
     }
     return view('seller.review', compact('products'));
+    }
+
+    public function report_user($id, $rating_id){
+        $user = User::find($id);
+        if(!$user){
+            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
+        }
+        $rating = Rating::find($rating_id);
+        if(!$rating){
+            return redirect()->back()->withErrors(['error' => 'theres no rating with provided id']);
+        }
+        if(!($user->id === $rating->customer_id)){
+            return redirect()->back()->withErrors(['error' => 'user and the reviewer not the same']);
+        }
+        return view('seller.report_user', compact('user', 'rating_id'));
+    }
+
+    public function give_report(Request $request, $id, $rating_id){
+        $request->validate([
+            'reason' => 'required|min:5|max:1000'
+        ]);
+        $user = Auth::user();
+        $target = User::find($id);
+        if(!$target){
+            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
+        }
+        $rating = Rating::find($rating_id);
+        if(!$rating){
+            return redirect()->back()->withErrors(['error' => 'theres no rating with provided id']);
+        }
+        if(!($target->id === $rating->customer_id)){
+            return redirect()->back()->withErrors(['error' => 'user and the reviewer not the same']);
+        }
+        Report::create([
+            'reporter_id'=>$user->id,
+            'target_id'=>$id,
+            'reason'=>$request->reason,
+        ]);
+        return redirect()->route('get.review');
     }
 }
