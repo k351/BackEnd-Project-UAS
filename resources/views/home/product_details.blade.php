@@ -3,7 +3,6 @@
 
 <head>
     @include('home.css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style type="text/css">
         .div_center {
             display: flex;
@@ -63,30 +62,6 @@
 
                         <div class="detail-box">
                             <h6>Category: {{ $data->category->category_name }}</h6>
-                        </div>
-
-                        <div class="detail-box">
-                            <h6>Average Rating: 
-                                <span>
-                                    @php
-                                        $rating = $data->ratings->avg('rating') ?? 0;
-                                        $fullStars = floor($rating);
-                                        $halfStar = ceil($rating - $fullStars) ? 1 : 0;
-                                        $emptyStars = 5 - $fullStars - $halfStar;
-                                    @endphp
-
-                                    @for ($i = 0; $i < $fullStars; $i++)
-                                        <i class="fas fa-star"></i>
-                                    @endfor
-
-                                    @if ($halfStar)
-                                        <i class="fas fa-star-half-alt"></i>
-                                    @endif
-
-                                    @for ($i = 0; $i < $emptyStars; $i++)
-                                        <i class="far fa-star"></i>
-                                    @endfor
-                                </span>
                         </div>
 
                         <div class="detail-box">

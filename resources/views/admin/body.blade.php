@@ -149,9 +149,11 @@
           </div>
       </div>
   </section>
+                <!-- Add more user blocks as needed -->
             </div>
         </div>
     </section>
+    <!-- Include your remaining sections here -->
 <!-- Footer -->
 <footer class="footer">
     <div class="footer__block block no-margin-bottom">

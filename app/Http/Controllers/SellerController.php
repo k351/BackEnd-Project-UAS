@@ -44,39 +44,8 @@ class SellerController extends Controller
 
     public function view_dashboard()
     {
-        $seller = auth()->user();
-        $shop = $seller->shop;
-
-        if ($shop) {
-
-            $products = $shop->products;
-
-            $totalStock = $products->sum('stock');
-        } else {
-            $products = collect();
-            $totalStock = 0;
-        }
-        return view('seller.index', compact('products', 'totalStock'));
+        return view('seller.index');
     }
-
-    public function search(Request $request)
-{
-    // Get the authenticated seller
-    $seller = auth()->user();
-    $searchTerm = $request->input('search');
-
-    $shop = $seller->shop;
-
-    if ($shop) {
-        $products = $shop->products()->where('name', 'ILIKE', '%' . $searchTerm . '%')->get();
-        $totalStock = $products->sum('stock');
-    } else {
-        $products = collect();
-        $totalStock = 0;
-    }
-
-    return view('seller.index', compact('products', 'totalStock'));
-}
 
     public function view_product()
     {

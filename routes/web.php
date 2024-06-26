@@ -14,6 +14,7 @@ Route::get('/', [HomeController::class, 'home'])->name('home')->middleware(['che
 Route::get('/status', [HomeController::class, 'status'])->name('status')->middleware('auth');
 Route::get('/untimeout', [HomeController::class, 'untimeout'])->name('untimeout')->middleware('auth');
 Route::get('/rekomendasi', [RekomendasiController::class, "index"])->name('recommendation.index');
+// Route::get('/dashboard', [HomeController::class, 'login_home'])->middleware(['auth', 'prevent'])->name('dashboard');
 
 Route::middleware(['auth', 'check'])->group(function () {
     Route::get('product_details/{id}/confirm', [TransactionController::class, 'index'])->name('transaction.index');
@@ -55,7 +56,6 @@ Route::middleware(['auth', 'prevent', 'check'])->group(function () {
 Route::middleware(['auth', 'seller', 'prevent', 'check'])->group(function () {
     Route::get('seller/dashboard/', [SellerController::class, 'view_dashboard'])->name('create.seller_dashboard');
     Route::get('seller/view_product', [SellerController::class, 'view_product'])->name('view.product');
-    Route::get('/seller/search', [SellerController::class, 'search'])->name('seller.search');
     Route::post('add_product', [SellerController::class, 'upload_product'])->name('add_product');
     Route::post('upload_product', [SellerController::class, 'upload_product'])->name('upload_product');
     Route::get('get_review', [SellerController::class, 'get_Review'])->name('get.review');
