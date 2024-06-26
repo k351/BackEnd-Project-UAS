@@ -33,7 +33,7 @@ class RatingMiddleware
             return redirect()->back();
         }
 
-        $product = $history->items()->where('product_id', $product_id)->first();  
+        $product = $history->transactionitems->where('product_id', $product_id)->first();  
 
         if(!$product){
             return redirect()->back();

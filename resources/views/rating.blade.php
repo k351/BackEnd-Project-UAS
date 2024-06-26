@@ -79,7 +79,7 @@
 <body>
     <div class="container">
         <h1>Rate Product</h1>
-        <form action="{{ route('rating.store', $transaction_id, $product_id) }}" method="post">
+        <form action="{{ route('rating.store', [$transaction_id, $product_id]) }}" method="post">
             @csrf
             <div class="form-group">
                 <label for="rating" id="rating-label">Apa yang bikin kamu puas?</label>
