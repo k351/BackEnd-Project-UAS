@@ -96,6 +96,33 @@
 
 
                     </div>
+                    <div class="box">
+                        <h6><b>Ratings</b></h6>
+                        @if(empty($rate))
+                            <h6>No rating yet!</h6>
+                        @else
+                            @foreach($rate as $ratings)
+                                @php
+                                    $rating = $ratings->rating;
+                                    $fullStars = floor($rating);
+                                    $halfStar = ceil($rating - $fullStars) ? 1 : 0;
+                                    $emptyStars = 5 - $fullStars - $halfStar;
+                                @endphp
+
+                                @for ($i = 0; $i < $fullStars; $i++)
+                                    <i class="fas fa-star"></i>
+                                @endfor
+
+                                @if ($halfStar)
+                                    <i class="fas fa-star-half-alt"></i>
+                                @endif
+
+                                @for ($i = 0; $i < $emptyStars; $i++)
+                                    <i class="far fa-star"></i>
+                                @endfor
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
 
             </div>
