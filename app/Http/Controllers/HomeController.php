@@ -44,7 +44,7 @@ class HomeController extends Controller
     public function product_details($id){
         $data = Product::find($id);
         $rate = DB::table('ratings')
-            ->select('product_id')
+            ->select('customer_id','rating', 'review')
             ->where('product_id', $id)
             ->get()
             ->toArray();
