@@ -27,7 +27,6 @@ Route::middleware(['auth', 'check'])->group(function () {
     Route::post('cart', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::get('/cart', [CartController::class, 'showCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-
 });
 
 require __DIR__ . '/auth.php';

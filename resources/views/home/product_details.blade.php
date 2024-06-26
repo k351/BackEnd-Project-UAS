@@ -32,7 +32,7 @@
     <!-- Product details start -->
 
     <section class="shop_section layout_padding">
-        <div class="container">
+        <div class="container" style="display: flex; flex-direction: column; justify-content: space-between;">
             <div class="heading_container heading_center">
                 <h2>
                     Latest Products
@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="detail-box">
-                            <h6>Average Rating: 
+                            <h6>Average Rating:
                                 <span>
                                     @php
                                         $rating = $data->ratings->avg('rating') ?? 0;
@@ -97,11 +97,22 @@
 
                     </div>
                 </div>
-
             </div>
-            <div class="mt-4 text-center">
-                <a href="{{ route('transaction.index', $data->id) }}" class="btn btn-primary"
-                    style="background:green; color:white">Checkout</a>
+
+            <div style="display: flex; align-self: center">
+                <div class="mt-4 mr-4 text-center">
+                    <form action="{{ route('cart.add') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $data->id }}">
+                        <button type="submit" class="btn btn-primary" style="background: blue; color: white;">
+                            Add to Cart
+                        </button>
+                    </form>
+                </div>
+                <div class="mt-4 text-center">
+                    <a href="{{ route('transaction.index', $data->id) }}" class="btn btn-primary"
+                        style="background:green; color:white">Checkout</a>
+                </div>
             </div>
         </div>
     </section>
