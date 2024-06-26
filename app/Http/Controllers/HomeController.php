@@ -43,7 +43,12 @@ class HomeController extends Controller
 
     public function product_details($id){
         $data = Product::find($id);
-        return view('home.product_details', compact('data'));
+        $rate = DB::table('ratings')
+            ->select('product_id')
+            ->where('product_id', $id)
+            ->get()
+            ->toArray();
+        return view('home.product_details', compact('data', 'rate'));
     }
 
     public function wallet_topup($id){
