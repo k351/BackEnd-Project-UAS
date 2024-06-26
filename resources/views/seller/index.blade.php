@@ -9,6 +9,7 @@
       <div class="page-content">
         <div class="page-header">
           <div class="container-fluid">
+            @include('seller.body')
         </div>
       </div>
     </div>
