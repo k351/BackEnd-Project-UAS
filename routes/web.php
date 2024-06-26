@@ -90,7 +90,7 @@ Route::middleware(['auth', 'verified', 'check', 'prevent'])->group(function(){
 // Rating routes
 Route::middleware(['auth', 'rating', 'check'])->group(function () {
     Route::get('/rate/{transaction_id}/{product_id}', [RatingController::class, 'rate'])->name('rating.form');
-    Route::post('/rate', [RatingController::class, 'postRate'])->name('rating.store');
+    Route::post('/rate/{transaction_id}/{product_id}', [RatingController::class, 'postRate'])->name('rating.store');
 });
 //History route
 Route::get('/transaction/history', [TransactionController::class, 'history'])->name('transaction.history');

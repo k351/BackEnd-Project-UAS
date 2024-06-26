@@ -79,11 +79,8 @@
 <body>
     <div class="container">
         <h1>Rate Product</h1>
-        <form action="{{ route('rating.store') }}" method="post">
+        <form action="{{ route('rating.store', $transaction_id, $product_id) }}" method="post">
             @csrf
-            <input type="hidden" name="transaction_id" id="transaction_id" value="{{ $transaction_id }}">
-            <input type="hidden" name="product_id" id="product_id" value="{{ $product_id }}">
-
             <div class="form-group">
                 <label for="rating" id="rating-label">Apa yang bikin kamu puas?</label>
                 <div class="star-rating">

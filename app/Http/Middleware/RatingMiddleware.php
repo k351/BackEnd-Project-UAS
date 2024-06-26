@@ -19,8 +19,8 @@ class RatingMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-        $product_id = $request->route('product_id') ?? $request->input('product_id');
-        $transaction_id = $request->route('transaction_id') ?? $request->input('transaction_id');
+        $product_id = $request->product_id;
+        $transaction_id = $request->transaction_id;
 
 
         if (!$user) {
