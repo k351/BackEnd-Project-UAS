@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head> 
-    @include('admin.css')
+    @include('seller.css')
     <style>
         .user-actions-container {
             display: flex;
@@ -28,48 +28,29 @@
     </style>
   </head>
   <body>
-    @include('admin.header')
-    @include('admin.sidebar')
+    @include('seller.header')
+    @include('seller.sidebar')
       <div class="page-content">
         <div class="page-header">
           <div class="container-fluid d-flex justify-content-center">
             <div class="col-lg-4 user-block" data-username="{{ $user->name }}" data-usertype="{{ $user->type }}">
               <div class="block text-center">
-                  <div class="avatar"><img src="{{ $user->avatar }}" alt="..." class="img-fluid">
-                  </div>
                   <a href="#" class="user-title">
                       <h3 class="h5">{{ $user->name }}</h3>
                       <span>{{ $user->email }}</span>
                   </a>
-                  <div>{{ $user->name }} {{$reports->count()}}x reported</div>
-
-                                          @if($reports->count() > 0)
-                                          <div class="mt-3">
-                                              <h8>Reported Reasons:</h8>
-                                                @foreach($reports as $report)
-                                                    <p>{{ $report->reason }}</p>
-                                                @endforeach
-                                          </div>
-                                      @else
-                                          <div class="mt-3">
-                                              <p>No reported reasons available.</p>
-                                          </div>
-                                      @endif
                   <div class="user-actions-container mt-3">
-                    <form action="{{route('admin.timeout.ban', ['id' => $user->id])}}" method="post">
+                    <form action="{{ route('give.report', ['id' => $user->id, 'rating_id' => $rating_id]) }}" method="post">
                       @csrf
                       <div class="form-group">
-                          <textarea name="reason" id="reason" rows="5" placeholder="Reason to timeout/ban"></textarea>
+                          <textarea name="reason" id="reason" rows="5" placeholder="Reason to report"></textarea>
                       </div>
-                      
-                      <button type="submit" name="action" value="timeout" class="btn btn-warning timeout-btn">Timeout</button>
-                      <button type="submit" name="action" value="banned" class="btn btn-danger ban-btn">Ban</button>
-                      
+                      <button type="submit" name="action" value="banned" class="btn btn-danger ban-btn">Report</button>
                     </form>          
                   </div>
               </div>
           </div>
-        </div>
+        </div>  
       </div>
     </div>
     <!-- JavaScript files-->

@@ -27,12 +27,11 @@
                                     $product_ids = [];
                                 @endphp
                                 @foreach ($cart as $cartItem)
-                                    @php
-                                        $total_harga += $cartItem->product->price * $cartItem->quantity;
-                                        array_push($product_ids, $cartItem->product->id);
-                                    @endphp
-
                                     @if ($cartItem->status == 1)
+                                        @php
+                                            $total_harga += $cartItem->product->price * $cartItem->quantity;
+                                            array_push($product_ids, $cartItem->product->id);
+                                        @endphp
                                         <input type="hidden" name="product_ids[]" value="{{ $cartItem->product->id }}">
 
                                         <li class="list-group-item d-flex justify-content-between">
