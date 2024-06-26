@@ -74,8 +74,8 @@
     <footer class=" footer_section">
       <div class="container">
         <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
-          <a href="https://html.design/">Web Tech Knowledge</a>
+          &copy; <span id="displayYear"></span> KELAS C KELOMPOK 1
+          <a href="https://html.design/">BACKEND UAS</a>
         </p>
       </div>
     </footer>
