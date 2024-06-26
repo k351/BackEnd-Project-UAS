@@ -102,6 +102,7 @@
                             <h6>No rating yet!</h6>
                         @else
                             @foreach($rate as $ratings)
+                                <h6>User {{$ratings->customer_id}}</h6>
                                 @php
                                     $rating = $ratings->rating;
                                     $fullStars = floor($rating);
@@ -110,16 +111,18 @@
                                 @endphp
 
                                 @for ($i = 0; $i < $fullStars; $i++)
-                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star text-warning"></i>
                                 @endfor
 
                                 @if ($halfStar)
-                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="fas fa-star-half-alt text-warning"></i>
                                 @endif
 
                                 @for ($i = 0; $i < $emptyStars; $i++)
-                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star text-warning"></i>
                                 @endfor
+
+                                <p>{{$ratings->review}}</p>
                             @endforeach
                         @endif
                     </div>
