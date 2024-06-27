@@ -38,8 +38,7 @@
                 <tbody>
                     @foreach ($cartItems as $item)
                         <tr>
-                            <td><input type="hidden" name="selectedItems[{{ $item->id }}]"
-                                value="0">
+                            <td><input type="hidden" name="selectedItems[{{ $item->id }}]" value="0">
                                 <input type="checkbox"name="selectedItems[{{ $item->id }}]"
                                     value="{{ $item->product->id }}" id="item_{{ $item->id }}"
                                     @if ($item->status == 1) checked @endif>
@@ -87,8 +86,15 @@
 
 
         <script>
+            window.addEventListener('beforeunload', function(event) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ route('cart.uncheck_all_items') }}', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                xhr.send();
+            });
+
             function prepareCheckout() {
-                // Find all checked checkboxes in the table
                 var selectedItems = [];
                 var checkboxes = document.querySelectorAll('input[name="selectedItems[]"]:checked');
 
@@ -96,16 +102,15 @@
                     selectedItems.push(checkbox.value);
                 });
 
-                // Set the value of hidden input field to selected items
                 document.getElementById('selectedItemsInput').value = JSON.stringify(selectedItems);
 
-                // Submit the form
                 document.getElementById('checkoutForm').submit();
             }
         </script>
     </div>
 
     @include('home.footer')
+
 </body>
 
 </html>
