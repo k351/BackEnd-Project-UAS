@@ -40,11 +40,6 @@
 
     <section class="shop_section layout_padding">
         <div class="container" style="display: flex; flex-direction: column; justify-content: space-between;">
-            <div class="heading_container heading_center">
-                <h2>
-                    Latest Products
-                </h2>
-            </div>
             <div class="row">
                 <div class="col-md-10">
                     <div class="box">
