@@ -86,17 +86,25 @@
 
 
         <script>
-            window.addEventListener('beforeunload', function(event) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{ route('cart.uncheck_all_items') }}', true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
-                xhr.send();
+            var formSubmitting = false;
+
+            document.addEventListener('submit', function(event) {
+                formSubmitting = true;
+            });
+
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'hidden' && !formSubmitting) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '{{ route('cart.uncheck_all_items') }}', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                    xhr.send();
+                }
             });
 
             function prepareCheckout() {
                 var selectedItems = [];
-                var checkboxes = document.querySelectorAll('input[name="selectedItems[]"]:checked');
+                var checkboxes = document.querySelectorAll('input[name^="selectedItems"]:checked');
 
                 checkboxes.forEach(function(checkbox) {
                     selectedItems.push(checkbox.value);
@@ -104,6 +112,7 @@
 
                 document.getElementById('selectedItemsInput').value = JSON.stringify(selectedItems);
 
+                formSubmitting = true; // Set the flag before submitting
                 document.getElementById('checkoutForm').submit();
             }
         </script>
