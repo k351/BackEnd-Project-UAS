@@ -99,7 +99,7 @@ class AdminController extends Controller
         if($user->status !== "none"){
             return redirect()->back()->withErrors(['error' => 'user already been banned/timeout']);
         }
-        $reports = Report::where('target_id', $id);
+        $reports = Report::where('target_id', $id)->where('status', 'none');
         return view('admin.take_action', compact('user', 'reports'));
     }
 

@@ -47,19 +47,6 @@
                       <span>{{ $user->email }}</span>
                   </a>
                   <div>{{ $user->name }} {{$reports->count()}}x reported</div>
-
-                                          @if($reports->count() > 0)
-                                          <div class="mt-3">
-                                              <h8>Reported Reasons:</h8>
-                                                @foreach($reports as $report)
-                                                    <p>{{ $report->reason }}</p>
-                                                @endforeach
-                                          </div>
-                                      @else
-                                          <div class="mt-3">
-                                              <p>No reported reasons available.</p>
-                                          </div>
-                                      @endif
                   <div class="user-actions-container mt-3">
                     <form action="{{route('admin.timeout.ban', ['id' => $user->id])}}" method="post">
                       @csrf
