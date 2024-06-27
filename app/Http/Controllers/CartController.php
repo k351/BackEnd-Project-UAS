@@ -104,4 +104,12 @@ class CartController extends Controller
         $cartItem->delete();
         return redirect()->route('cart.index')->with('success', 'Item removed from cart.');
     }
-}
+
+    public function uncheckAllItems()
+    {
+        $user = auth()->user();
+        // Update all items in the user's cart to be unchecked
+        Cart::where('user_id', $user->id)->update(['status' => 0]);
+        return response()->json(['success' => true]);
+    }
+    }

@@ -27,6 +27,7 @@ Route::middleware(['auth', 'check'])->group(function () {
     Route::post('cart', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::get('/cart', [CartController::class, 'showCart'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/uncheck-all-items', [CartController::class, 'uncheckAllItems'])->name('cart.uncheck_all_items');
 });
 
 require __DIR__ . '/auth.php';
