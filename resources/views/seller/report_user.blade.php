@@ -12,6 +12,11 @@
             flex: 1;
             margin: 0 2px;
         }
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
         textarea {
             width: 100%;
             padding: 10px;
@@ -45,6 +50,9 @@
                       <div class="form-group">
                           <textarea name="reason" id="reason" rows="5" placeholder="Reason to report"></textarea>
                       </div>
+                      @error('reason')
+                        <div class="error-message">{{ $message }}</div>
+                      @enderror
                       <button type="submit" name="action" value="banned" class="btn btn-danger ban-btn">Report</button>
                     </form>          
                   </div>

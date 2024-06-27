@@ -25,6 +25,11 @@
         textarea::placeholder {
             color: #cccccc;
         }
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
     </style>
   </head>
   <body>
@@ -61,10 +66,14 @@
                       <div class="form-group">
                           <textarea name="reason" id="reason" rows="5" placeholder="Reason to timeout/ban"></textarea>
                       </div>
-                      
+                      @error('reason')
+                      <div class="error-message">{{ $message }}</div>
+                      @enderror
                       <button type="submit" name="action" value="timeout" class="btn btn-warning timeout-btn">Timeout</button>
                       <button type="submit" name="action" value="banned" class="btn btn-danger ban-btn">Ban</button>
-                      
+                      @error('action')
+                      <div class="error-message">{{ $message }}</div>
+                      @enderror
                     </form>          
                   </div>
               </div>

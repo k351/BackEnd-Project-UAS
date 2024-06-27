@@ -62,7 +62,14 @@
                                             <div class="rating-info">
                                                 <div>Review by: {{ $rating->customer->name }}</div>
                                                 <div>Rating: {{ $rating->rating }}</div>
-                                                <div>Review: {{ $rating->review }}</div>
+                                                <div>Review: 
+                                                    @php
+                                                        $words = explode(' ', $rating->review);
+                                                        $limitedWords = array_slice($words, 0, 50);
+                                                        $limitedReview = implode(' ', $limitedWords);
+                                                    @endphp
+                                                    {{ $limitedReview }}{{ count($words) > 50 ? '...' : '' }}
+                                                </div>                                                
                                             </div>
                                             @if(!($rating->report))
                                                 <form action="{{route('report.user', ['id' => $rating->customer_id, 'rating_id' => $rating->id])}}" method="get">

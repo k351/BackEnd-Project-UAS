@@ -17,6 +17,7 @@
             height: 100vh;
         }
         .container {
+            position: relative;
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -27,6 +28,11 @@
         h1 {
             font-size: 24px;
             margin-bottom: 20px;
+        }
+        .top-left-link {
+            position: absolute;
+            top: 10px; 
+            left: 10px; 
         }
         .form-group {
             margin-bottom: 20px;
@@ -83,6 +89,7 @@
 </head>
 <body>
     <div class="container">
+        <a href="{{route('transaction.history')}}" class="top-right-link ">Back</a>
         <h1>Rate Product</h1>
         <form action="{{ route('rating.store', [$transaction_id, $product_id]) }}" method="post">
             @csrf
