@@ -17,7 +17,7 @@ class RatingController extends Controller
     {
         $request->validate([
             'rating' => 'required|integer|between:1,5',
-            'review' => 'nullable|string'
+            'review' => 'nullable|string|between:5,200',
         ]);
         $review = $request->review ?? null;
         $user = Auth::user();

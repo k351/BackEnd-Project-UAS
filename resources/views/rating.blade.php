@@ -62,6 +62,11 @@
             resize: vertical;
             box-sizing: border-box;
         }
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
         button {
             background-color: #4CAF50;
             color: white;
@@ -90,12 +95,17 @@
                     <input type="radio" id="star2" name="rating" value="2" /><label for="star2"><i class="fas fa-star"></i></label>
                     <input type="radio" id="star1" name="rating" value="1" /><label for="star1"><i class="fas fa-star"></i></label>
                 </div>
+                @error('rating')
+                <div class="error-message">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <textarea name="review" id="review" rows="5" placeholder="Yuk, ceritain kepuasanmu tentang kualitas barang & pelayanan penjual."></textarea>
             </div>
-
+                @error('review')
+                <div class="error-message">{{ $message }}</div>
+                @enderror
             <button type="submit">Kirim</button>
         </form>
     </div>
