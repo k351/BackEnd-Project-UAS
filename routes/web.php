@@ -97,4 +97,4 @@ Route::middleware(['auth', 'rating', 'check'])->group(function () {
     Route::post('/rate/{transaction_id}/{product_id}', [RatingController::class, 'postRate'])->name('rating.store');
 });
 //History route
-Route::get('/transaction/history', [TransactionController::class, 'history'])->name('transaction.history');
+Route::get('/transaction/history', [TransactionController::class, 'history'])->middleware(['auth','check'])->name('transaction.history');
