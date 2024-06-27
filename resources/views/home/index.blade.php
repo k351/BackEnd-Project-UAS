@@ -14,6 +14,12 @@
     @include('home.slider')
     <!-- end slider section -->
   </div>
+  
+  <div class="heading_container heading_center">
+    <h2 style="padding-top: 70px;">
+    Latest Products
+    </h2>
+  </div>
   <!-- end hero area -->
     @include('home.product')
   <!-- shop section -->
