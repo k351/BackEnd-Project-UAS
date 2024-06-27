@@ -92,34 +92,42 @@ class AdminController extends Controller
     }
 
     public function take_action($id){
+
         $user = User::find($id);
+         //mengecek apakah user yang ingin di ban/timeout ada
         if(!$user){
-            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
+            return redirect()->back();
         }
+        //mengecek apakah user sudah dalam status diban/timeout
         if($user->status !== "none"){
-            return redirect()->back()->withErrors(['error' => 'user already been banned/timeout']);
+            return redirect()->back();
         }
+        //mencari report yang pernah di reportkan ke user yang belom pernah dilakukan action/baru-baru ini
         $reports = Report::where('target_id', $id)->where('status', 'none');
         return view('admin.take_action', compact('user', 'reports'));
     }
 
     public function timeout_ban(Request $request, $id){
+        //mengvalidasi action dan reason
         $request->validate([
             'reason' => 'required|min:5|max:1000',
             'action' => 'required|in:timeout,banned'
         ]);
         $user = User::find($id);
+         //mengecek apakah user yang ingin di ban/timeout ada
         if(!$user){
-            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
+            return redirect()->back();
         }
+        //mengecek apakah user sudah dalam status diban/timeout
         if($user->status !== "none"){
-            return redirect()->back()->withErrors(['error' => 'user already been banned/timeout']);
+            return redirect()->back();
         }
+        //mengupdate status dari user
         $user->status=$request->action;
         $user->reason=$request->reason;
         $user->action_time = Carbon::now();
         $user->save();
-
+        //mengupdate status semua report terbaru
         $reports = Report::where('target_id', $id)->where('status', 'none')->get();
         foreach ($reports as $report) {
             $report->status = 'tk';
@@ -129,10 +137,12 @@ class AdminController extends Controller
     }
 
     public function remove_action($id){
+        //mengecek apakah user yang ingin di remove status ban/timeout ada
         $user = User::find($id);
         if(!$user){
             return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
         }
+        //mengecek apakah user yang ingin di remove status diban atau tidak
         if($user->status === "none"){
             return redirect()->back()->withErrors(['error' => 'user has not been banned/timeout']);
         }
@@ -140,13 +150,16 @@ class AdminController extends Controller
     }
 
     public function untimeout_unban($id){
+        //mengecek apakah user yang ingin di remove status ban/timeout ada
         $user = User::find($id);
         if(!$user){
             return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
         }
+         //mengecek apakah user yang ingin di remove status diban atau tidak
         if($user->status === "none"){
             return redirect()->back()->withErrors(['error' => 'user has not been banned/timeout']);
         }
+        //mengupdate status user
         $user->status="none";
         $user->reason="-";
         $user->action_time = null;
