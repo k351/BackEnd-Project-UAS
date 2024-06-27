@@ -42,4 +42,5 @@ class Product extends Model
     {
         return $this->hasMany(TransactionItem::class);
     }
+
 }

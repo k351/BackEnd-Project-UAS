@@ -22,7 +22,7 @@ class AdminController extends Controller
         $users = User::where('type', '!=', 'admin')->paginate(5);
 
         foreach ($users as $user) {
-            $user->reportsCount = Report::where('target_id', $user->id)->count();
+            $user->reportsCount = Report::where('target_id', $user->id)->where('status', "none")->count();
         }
 
         return view('admin.index', compact('users', 'totalUsers', 'totalSellers', 'totalCategories', 'totalProducts'));
@@ -120,7 +120,11 @@ class AdminController extends Controller
         $user->action_time = Carbon::now();
         $user->save();
 
-        Report::where('target_id', $id)->delete();
+        $reports = Report::where('target_id', $id)->where('status', 'none')->get();
+        foreach ($reports as $report) {
+            $report->status = 'tk';
+            $report->save();
+        }
         return redirect()->route('admin.dashboard');
     }
 

@@ -225,16 +225,6 @@ public function rating_search(Request $request)
 
     public function report_user($id, $rating_id){
         $user = User::find($id);
-        if(!$user){
-            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
-        }
-        $rating = Rating::find($rating_id);
-        if(!$rating){
-            return redirect()->back()->withErrors(['error' => 'theres no rating with provided id']);
-        }
-        if(!($user->id === $rating->customer_id)){
-            return redirect()->back()->withErrors(['error' => 'user and the reviewer not the same']);
-        }
         return view('seller.report_user', compact('user', 'rating_id'));
     }
 
@@ -257,7 +247,9 @@ public function rating_search(Request $request)
         Report::create([
             'reporter_id'=>$user->id,
             'target_id'=>$id,
+            'product_id'=>$rating->product_id,
             'reason'=>$request->reason,
+            'rating_id'=>$rating_id,
         ]);
         return redirect()->route('get.review');
     }

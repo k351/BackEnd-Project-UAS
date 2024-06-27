@@ -45,7 +45,7 @@ class RatingMiddleware
             ->first();
                                                 
         if ($reviewed) {
-            return redirect()->back();
+            return redirect()->route('home');
         }
 
         return $next($request);

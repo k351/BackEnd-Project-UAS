@@ -28,6 +28,6 @@ class RatingController extends Controller
             'transaction_id' => $transaction_id,
             'rating' => $request->rating,
         ]);
-        return redirect()->route('home');
+        return redirect()->route('transaction.history');
     }
 }

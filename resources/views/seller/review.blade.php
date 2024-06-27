@@ -64,9 +64,13 @@
                                                 <div>Rating: {{ $rating->rating }}</div>
                                                 <div>Review: {{ $rating->review }}</div>
                                             </div>
-                                            <form action="{{route('report.user', ['id' => $rating->customer_id, 'rating_id' => $rating->id])}}" method="get">
-                                                <button class="btn btn-danger">Report</button>
-                                            </form>
+                                            @if(!($rating->report))
+                                                <form action="{{route('report.user', ['id' => $rating->customer_id, 'rating_id' => $rating->id])}}" method="get">
+                                                    <button class="btn btn-danger">Report</button>
+                                                </form>
+                                            @else
+                                                <p>Reported</p>
+                                            @endif
                                         </div>
                                     </div>
                                 @endforeach

@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'product' => \App\Http\Middleware\DeleteProductMiddleware::class,
             'check' => \App\Http\Middleware\CheckUserStatus::class,
             'topup' => \App\Http\Middleware\TopUpMiddleware::class,
+            'report' => \App\Http\Middleware\ReportMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

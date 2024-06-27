@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId("reporter_id")->constrained("users");
             $table->foreignId("target_id")->constrained("users");
+            $table->foreignId("product_id")->constrained("products");
+            $table->foreignId("rating_id")->constrained('ratings');
+            $table->enum('status', ['tk', 'none'])->default('none');
             $table->string('reason');
             $table->timestamps();
         });
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('reports');
     }
 };

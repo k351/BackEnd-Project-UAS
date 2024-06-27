@@ -30,4 +30,7 @@ class Rating extends Model
         return $this->belongsTo(Transaction::class, 'transaction_id');
     }
     
+    public function report(){
+        return $this->hasOne(Report::class, 'rating_id');
+    }
 }
