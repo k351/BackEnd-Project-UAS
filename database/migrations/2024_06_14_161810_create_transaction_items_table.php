@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('transaction_id')->constrained('buy_history');
             $table->foreignId('product_id')->constrained('products');
-            $table->bigInteger('price');
+            $table->double('price');
             $table->integer('quantity');
             $table->timestamps();
         });

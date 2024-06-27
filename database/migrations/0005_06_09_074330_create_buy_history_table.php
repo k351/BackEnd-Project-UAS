@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('buy_history', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('users');
-            $table->bigInteger('total');
+            $table->double('total');
             $table->timestamp('transaction_date')->useCurrent();
             $table->timestamps();
         });

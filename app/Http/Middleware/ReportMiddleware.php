@@ -21,18 +21,32 @@ class ReportMiddleware
         $seller = Auth::user();
         $user = User::find($request->id);
         $rating = Rating::find($request->rating_id);
+        //mengecek adakah user yang menjadi target report
         if(!$user){
             return redirect()->back();
         }
+        //mengecek ada tidaknya rating
         if(!$rating){
             return redirect()->back();
         }
+        //mengecek apakah rating dilakukan oleh user yang sama
         if($user->id !== $rating->customer_id){
             return redirect()->back();
         }
+        //mengecek pelaku report adalah seller
+        if($seller->type !== 'seller'){
+            return redirect()->back();
+        }
+        //mengecek apakah produk yang dirating milik seller
+        $product = $seller->shop->products->where('id', $rating->product_id)->first();
+        if(!$product){
+            return redirect()->back();
+        }
+        //mengecek apakah rating telah pernah di report
         if($rating->report){
             return redirect()->back();
         }
+        
         return $next($request);
     }
 }

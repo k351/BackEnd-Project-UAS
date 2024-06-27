@@ -83,10 +83,9 @@ class SellerController extends Controller
 
 public function rating_search(Request $request)
 {
-    // Get the authenticated seller
+    //mencari rating berdasarkan product name
     $shop = Auth::user()->shop;
     $searchTerm = $request->input('search');
-
     if ($shop) {
         $products = $shop->products()->where('name', 'ILIKE', '%' . $searchTerm . '%')->with('ratings.customer')->get();
     } else {
@@ -224,26 +223,19 @@ public function rating_search(Request $request)
     }
 
     public function report_user($id, $rating_id){
+        //mengembalikan view dengan user yang direport dan rating id yang dilakukan user
         $user = User::find($id);
         return view('seller.report_user', compact('user', 'rating_id'));
     }
 
     public function give_report(Request $request, $id, $rating_id){
+        //mengvalidasi reason agar wajib dan minimal 5 max 1000 kata
         $request->validate([
             'reason' => 'required|min:5|max:1000'
         ]);
         $user = Auth::user();
-        $target = User::find($id);
-        if(!$target){
-            return redirect()->back()->withErrors(['error' => 'theres no user with provided id']);
-        }
         $rating = Rating::find($rating_id);
-        if(!$rating){
-            return redirect()->back()->withErrors(['error' => 'theres no rating with provided id']);
-        }
-        if(!($target->id === $rating->customer_id)){
-            return redirect()->back()->withErrors(['error' => 'user and the reviewer not the same']);
-        }
+        //menginsert report ke tabel report
         Report::create([
             'reporter_id'=>$user->id,
             'target_id'=>$id,
