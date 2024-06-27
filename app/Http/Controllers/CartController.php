@@ -73,6 +73,11 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $productId = $request->input('product_id');
+        $productExist = Cart::where('product_id', $productId)->exists();
+        if ($productExist) {
+            return redirect()->back()
+                ->with('error', 'Produk sudah ada di cart');
+        }
         // Simpan item ke dalam cart
         $cartItem = new Cart();
         $cartItem->user_id = $user->id;

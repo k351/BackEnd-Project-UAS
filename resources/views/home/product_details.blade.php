@@ -23,7 +23,14 @@
 </head>
 
 <body>
-    <div class="hero_area">
+    <div class="hero_area" style="display: flex; flex-direction: column;">
+        <div style="display:flex; justify-content:end;width: 20%; text-align: right; align-self:flex-end">
+            @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+             @endif
+        </div>
         <!-- header section strats -->
         @include('home.header')
         <!-- end header section -->
@@ -143,7 +150,9 @@
                     <a href="{{ route('transaction.index', $data->id) }}" class="btn btn-primary"
                         style="background:green; color:white">Checkout</a>
                 </div>
+
             </div>
+
         </div>
     </section>
 
