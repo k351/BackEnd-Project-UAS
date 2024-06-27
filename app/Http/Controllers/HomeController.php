@@ -82,7 +82,12 @@ class HomeController extends Controller
     public function product_search(Request $request){
         $search = $request->search;
         $search = Str::lower($search);
-        $product = Product::whereRaw('LOWER(name) LIKE ?', ["%{$search}%"])->paginate(20);
+        $product = Product::whereRaw('LOWER(name) LIKE ?', ["%{$search}%"])
+                            ->orWhereRaw('LOWER(description) LIKE ?', ["%{$search}%"])
+                            ->orWhereHas('category', function ($query) use ($search) {
+                                $query->whereRaw('LOWER(category_name) LIKE ?', ["%{$search}%"]);
+                            })
+                            ->paginate(20);
         $wishlist = DB::table('wishlist')
                 ->select('id','product_id')
                 ->where('customer_id', 1)
