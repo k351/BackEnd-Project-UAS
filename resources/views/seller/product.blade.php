@@ -63,9 +63,7 @@
                 </div>
                 <ul id="productdropdown" class="collapse list-unstyled">
                     <div class="div_deg">
-
-
-                      <form action="{{ route('upload_product') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('upload_product') }}" method="post" enctype="multipart/form-data">
                         @csrf
                             <table>
                                 <tr>
@@ -76,7 +74,7 @@
                                     <td>Category:</td>
                                     <td>
                                         <select name="category">
-                                            <option>Select an Option</option>
+                                            <option value="">Select an Option</option>
                                             @foreach($category as $category)
                                             <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                                             @endforeach
@@ -108,17 +106,7 @@
                 </ul>
             </div>
         </div>
-        <div class ="div_deg">
-            @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-        </div>
+
         <div>
             <table class="table_deg">
                 <tr>
@@ -198,8 +186,17 @@
             }
             toastr.success("{{ Session::get('toastr') }}");
         @endif
+
+        @if($errors->any())
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            }
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
     </script>
-
-
 </body>
 </html>

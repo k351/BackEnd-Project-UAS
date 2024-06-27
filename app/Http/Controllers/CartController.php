@@ -83,7 +83,8 @@ class CartController extends Controller
         $cartItem->user_id = $user->id;
         $cartItem->product_id = $productId;
         $cartItem->save();
-        return redirect()->route('cart.index')->with('success', 'Item added to cart');
+        // return redirect()->route('cart.index')->with('success', 'Item added to cart');
+        return redirect()->back()->with('success', 'Item added to cart');
     }
 
 

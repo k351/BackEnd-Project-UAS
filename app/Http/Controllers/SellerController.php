@@ -120,14 +120,14 @@ public function rating_search(Request $request)
             'product_description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
         DB::beginTransaction();
-
+    
         try {
             $user = Auth::user();
             $shop = $user->shop;
             $data = new Product;
-
+    
             $data->name = $request->product_name;
             $data->category_id = $request->category;
             $data->stock = $request->product_stock;
@@ -137,24 +137,24 @@ public function rating_search(Request $request)
             $data->date_added = now();
             $data->created_at = now();
             $data->updated_at = now();
-
+    
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imagename = time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('products'), $imagename);
                 $data->image = $imagename;
             }
-
+    
             $data->save();
             DB::commit();
-
+    
             return redirect()->back()->with('toastr', 'Product added successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Product upload error: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'There was an error uploading the product.']);
         }
-    }
+    }    
 
     public function delete_product($id){
         $data = Product::find($id);
